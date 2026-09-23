@@ -10,13 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="cliente">
 
 <header>
   <nav>
     <div class="logo">
       <a href="index.html" class="logo-link">
-      <img src="image/logo.azulm.jpeg" alt="logo PN" class="logo-img">
+      <img src="image/logobranca1.png" alt="logo PN" class="logo-img">
        </a>
       <div>
         <span class="logo-word">PEDRO NETO</span>
@@ -25,17 +25,20 @@
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <div class="nav-links" id="navLinks">
-      <a href="#pilares">O método</a>
-      <a href="#sobre">O profissional</a>
-      <a href="#filosofia">Filosofia</a>
-      <a href="#nutricao">Nutrição</a>
-      <a href="#processo">Como funciona</a>
-      <a href="#contato" class="nav-cta">Agendar avaliação</a>
+      <a href="index.html">O método</a>
+      <a href="index.html">O profissional</a>
+      <a href="index.html">Filosofia</a>
+      <a href="index.html">Nutrição</a>
+      <a href="index.html">Como funciona</a>
+      <a href="cliente.html" class="nav-cta">Agendar avaliação</a>
     </div>
   </nav>
 </header>
- <main>
-    <section class="form-container">
+</head>
+<body>
+<main>
+     
+   <section class="form-container">
        <div class="cadastro-title">
          <h1> Preencha seus dados </h1>
          <p> Seus dados serão analisados de forma segura.</p>
@@ -49,19 +52,173 @@
 
                 <div class="dados">
                  <label for="nascimento" class="nascimento-cli">Data de nascimento</label>
-                <input type="text" id="nascimento" placeholder="DD/MM/AAAA" maxlength="10">
+                 <input type="text" id="nascimento" placeholder="DD/MM/AAAA" maxlength="10">
                </div>
 
                 <div class="dados">
                  <label for="Número de" class="nascimento-cli">Data de nascimento</label>
-                <input type="text" id="nascimento" placeholder="DD/MM/AAAA" maxlength="10">
+                 <input type="text" id="nascimento" placeholder="DD/MM/AAAA" maxlength="10">
                </div>
 
-               <div class="dados">
-                <label for="objetivo" class="objetivo-cli"> Objetivo</label>
-                <input type="text" id="objetivo" placeholder="Descreva seu objetivo com o projeto de monitoria física. "
-               </div>
+                <div class="dados">
+                 <label for="objetivo" class="consulta-cli">Agende sua consulta</label>
+                 <input type="text" id="objetivo" placeholder="DD/MM" readonly>
+                </div>
 
-    </section>
+                <div id="mini-calendar-popover" class="mini-calendar">
+                  <div class="cal-header">
+                  <button type="button" id="prev-btn">&lt;</button>
+                  <span id="month-title" class="cal-title"></span>
+                  <button type="button" id="next-btn">&gt;</button>
+                  </div>
+      
+                  <div class="cal-grid">
+                   <span class="cal-day-name">Dom</span>
+                   <span class="cal-day-name">Seg</span>
+                   <span class="cal-day-name">Ter</span>
+                   <span class="cal-day-name">Qua</span>
+                   <span class="cal-day-name">Qui</span>
+                   <span class="cal-day-name">Sex</span>
+                   <span class="cal-day-name">Sáb</span>
+                  </div>
+          
+                 <div id="days-container" class="cal-grid"></div>
+                  <div class="cal-footer">
+                  <button type="button" id="today-btn">Hoje</button>
+                  <button type="button" id="clear-btn" style="color: #64748b;">Limpar</button>
+                  </div>
+             </div>
+         </div>
+     </form>
+   </section>
+</main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('objetivo');
+      const calendar = document.getElementById('mini-calendar-popover');
+      const monthTitle = document.getElementById('month-title');
+      const daysContainer = document.getElementById('days-container');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const todayBtn = document.getElementById('today-btn');
+      const clearBtn = document.getElementById('clear-btn');
+
+      let currentDate = new Date();
+      let viewDate = new Date();
+      let selectedDate = null;
+
+      const months = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ];
+
+      function renderCalendar() {
+        const year = viewDate.getFullYear();
+        const month = viewDate.getMonth();
+
+        monthTitle.textContent = `${months[month]} ${year}`;
+        daysContainer.innerHTML = '';
+
+        const firstDayIndex = new Date(year, month, 1).getDay();
+        const totalDays = new Date(year, month + 1, 0).getDate();
+
        
- </main>
+        for (let i = 0; i < firstDayIndex; i++) {
+          const emptyCell = document.createElement('div');
+          emptyCell.classList.add('cal-day', 'empty');
+          daysContainer.appendChild(emptyCell);
+        }
+
+     
+        for (let day = 1; day <= totalDays; day++) {
+          const dayCell = document.createElement('div');
+          dayCell.textContent = day;
+          dayCell.classList.add('cal-day');
+
+          const thisDate = new Date(year, month, day);
+
+          if (
+            day === currentDate.getDate() &&
+            month === currentDate.getMonth() &&
+            year === currentDate.getFullYear()
+          ) {
+            dayCell.classList.add('today');
+          }
+
+          
+          const startOfToday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+          if (thisDate < startOfToday) {
+            dayCell.classList.add('disabled');
+          } else {
+            dayCell.addEventListener('click', () => selectDate(day, month, year));
+          }
+
+         
+          if (
+            selectedDate &&
+            day === selectedDate.getDate() &&
+            month === selectedDate.getMonth() &&
+            year === selectedDate.getFullYear()
+          ) {
+            dayCell.classList.add('selected');
+          }
+
+          daysContainer.appendChild(dayCell);
+        }
+      }
+
+      function selectDate(day, month, year) {
+        selectedDate = new Date(year, month, day);
+        const dayStr = String(day).padStart(2, '0');
+        const monthStr = String(month + 1).padStart(2, '0');
+        
+       
+        input.value = `${dayStr}/${monthStr}`;
+        
+        renderCalendar();
+        calendar.classList.remove('active');
+      }
+
+      
+      input.addEventListener('click', (e) => {
+        e.stopPropagation();
+        calendar.classList.toggle('active');
+      });
+
+      
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        viewDate.setMonth(viewDate.getMonth() - 1);
+        renderCalendar();
+      });
+
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        viewDate.setMonth(viewDate.getMonth() + 1);
+        renderCalendar();
+      });
+
+      todayBtn.addEventListener('click', () => {
+        viewDate = new Date();
+        selectDate(currentDate.getDate(), currentDate.getMonth(), currentDate.getFullYear());
+      });
+
+      clearBtn.addEventListener('click', () => {
+        selectedDate = null;
+        input.value = '';
+        renderCalendar();
+      });
+
+     
+      document.addEventListener('click', (e) => {
+        if (!calendar.contains(e.target) && e.target !== input) {
+          calendar.classList.remove('active');
+        }
+      });
+
+      renderCalendar();
+    });
+  </script>
+   
+</body>
+</html>
