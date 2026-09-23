@@ -29,19 +29,20 @@
   /*LOGO*/
 
   .logo-img {
-  max-height: 60px; 
+  max-height: 80px; 
   width: auto;      
   object-fit: contain;
   display: block;
-  mix-blend-mode:multiply;
+  mix-blend-mode: darken;
 }
 
   /* ---------- NAV ---------- */
   header{
     position:sticky;top:0;z-index:50;
-    background:rgba(13,27,42,0.92);
+    background:rgba(11, 20, 29, 0.92);
     backdrop-filter:blur(6px);
     border-bottom:1px solid rgba(255,255,255,0.08);
+    font-family: "Helvetica", sans-serif;
   }
   nav{
     display:flex;align-items:center;justify-content:space-between;
@@ -61,7 +62,7 @@
   .nav-links a:hover{color:var(--white);}
   .nav-cta{
     background:var(--white);color:var(--navy)!important;
-    padding:10px 20px;border-radius:2px;font-weight:600;font-size:13px;
+    padding:10px 20px;border-radius:30px;font-weight:700;font-size:13px;
   }
   .nav-toggle{display:none;background:none;border:0;color:var(--white);font-size:22px;cursor:pointer;}
 
@@ -218,6 +219,7 @@
   .cta-final{
     position:relative;background:var(--graphite);color:var(--white);
     padding:120px 0;text-align:center;overflow:hidden;
+    font-family: "Helvetica", sans-serif;
   }
   .cta-pattern{
     position:absolute;inset:0;opacity:0.05;
