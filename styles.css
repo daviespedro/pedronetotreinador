@@ -29,18 +29,17 @@
   /*LOGO*/
 
   .logo-img {
-  max-height: 80px; 
+  max-height: 95px; 
   width: auto;      
   object-fit: contain;
-  display: block;
+  display: box;
   mix-blend-mode: darken;
 }
 
   /* ---------- NAV ---------- */
   header{
-    position:sticky;top:0;z-index:50;
     background:rgba(11, 20, 29, 0.92);
-    backdrop-filter:blur(6px);
+    backdrop-filter:blur(30px);
     border-bottom:1px solid rgba(255,255,255,0.08);
     font-family: "Helvetica", sans-serif;
   }
