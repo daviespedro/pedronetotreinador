@@ -27,13 +27,11 @@
 
 
   /*LOGO*/
-
-  .logo-img {
+.logo-img {
   max-height: 95px; 
   width: auto;      
   object-fit: contain;
-  display: box;
-  mix-blend-mode: darken;
+  display: block;
 }
 
   /* ---------- NAV ---------- */
