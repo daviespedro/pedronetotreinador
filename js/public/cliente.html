@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedro Neto — Personal Trainer | Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Estilos do botão e da mensagem; se preferir, mova para o styles.css */
+  .btn-enviar{margin-top:1.5rem;padding:.9rem 2rem;border:0;border-radius:8px;background:#2563eb;color:#fff;font:600 1rem 'Montserrat',sans-serif;cursor:pointer}
+  .btn-enviar:disabled{opacity:.6;cursor:wait}
+  #status{margin-top:1rem;font-weight:600}
+  #status.ok{color:#16a34a}
+  #status.erro{color:#dc2626}
+</style>
+</head>
+<body class="cliente">
+
+<header>
+  <nav>
+    <div class="logo">
+      <a href="index.html" class="logo-link">
+        <img src="image/logobranca1.png" alt="logo PN" class="logo-img">
+      </a>
+      <div>
+        <span class="logo-word">PEDRO NETO</span>
+        <span class="logo-sub">TREINO · CONSULTORIA</span>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">O método</a>
+      <a href="index.html">O profissional</a>
+      <a href="index.html">Filosofia</a>
+      <a href="index.html">Nutrição</a>
+      <a href="index.html">Como funciona</a>
+      <a href="cliente.html" class="nav-cta">Agendar avaliação</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="form-container">
+    <div class="cadastro-title">
+      <h1> Preencha seus dados </h1>
+      <p> Seus dados serão analisados de forma segura.</p>
+    </div>
+
+    <form id="form-agendamento">
+      <div class="dados-container">
+        <div class="dados">
+          <label for="nome" class="nome-cli">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required minlength="3" maxlength="120" autocomplete="name">
+        </div>
+
+        <div class="dados">
+          <label for="nascimento" class="nascimento-cli">Data de nascimento</label>
+          <input type="text" id="nascimento" name="nascimento" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" required>
+        </div>
+
+        <div class="dados">
+          <label for="telefone" class="nascimento-cli">Número de telefone / WhatsApp</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(11) 91234-5678" required autocomplete="tel">
+        </div>
+
+        <div class="dados">
+          <label for="objetivo" class="consulta-cli">Agende sua consulta</label>
+          <input type="text" id="objetivo" placeholder="DD/MM" readonly>
+          <!-- data completa (com ano) enviada ao banco -->
+          <input type="hidden" id="data-consulta" name="data_consulta">
+        </div>
+
+        <div id="mini-calendar-popover" class="mini-calendar">
+          <div class="cal-header">
+            <button type="button" id="prev-btn">&lt;</button>
+            <span id="month-title" class="cal-title"></span>
+            <button type="button" id="next-btn">&gt;</button>
+          </div>
+
+          <div class="cal-grid">
+            <span class="cal-day-name">Dom</span>
+            <span class="cal-day-name">Seg</span>
+            <span class="cal-day-name">Ter</span>
+            <span class="cal-day-name">Qua</span>
+            <span class="cal-day-name">Qui</span>
+            <span class="cal-day-name">Sex</span>
+            <span class="cal-day-name">Sáb</span>
+          </div>
+
+          <div id="days-container" class="cal-grid"></div>
+          <div class="cal-footer">
+            <button type="button" id="today-btn">Hoje</button>
+            <button type="button" id="clear-btn" style="color: #64748b;">Limpar</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" id="btn-enviar" class="btn-enviar">Agendar consulta</button>
+      <p id="status" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('objetivo');
+  const dataConsulta = document.getElementById('data-consulta');
+  const calendar = document.getElementById('mini-calendar-popover');
+  const monthTitle = document.getElementById('month-title');
+  const daysContainer = document.getElementById('days-container');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const todayBtn = document.getElementById('today-btn');
+  const clearBtn = document.getElementById('clear-btn');
+
+  const currentDate = new Date();
+  // Sempre no dia 1, para o setMonth não "pular" meses quando hoje é dia 29, 30 ou 31
+  let viewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  let selectedDate = null;
+
+  const months = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
+  function renderCalendar() {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+
+    monthTitle.textContent = `${months[month]} ${year}`;
+    daysContainer.innerHTML = '';
+
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDayIndex; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.classList.add('cal-day', 'empty');
+      daysContainer.appendChild(emptyCell);
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.textContent = day;
+      dayCell.classList.add('cal-day');
+
+      const thisDate = new Date(year, month, day);
+
+      if (
+        day === currentDate.getDate() &&
+        month === currentDate.getMonth() &&
+        year === currentDate.getFullYear()
+      ) {
+        dayCell.classList.add('today');
+      }
+
+      const startOfToday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+      if (thisDate < startOfToday) {
+        dayCell.classList.add('disabled');
+      } else {
+        dayCell.addEventListener('click', () => selectDate(day, month, year));
+      }
+
+      if (
+        selectedDate &&
+        day === selectedDate.getDate() &&
+        month === selectedDate.getMonth() &&
+        year === selectedDate.getFullYear()
+      ) {
+        dayCell.classList.add('selected');
+      }
+
+      daysContainer.appendChild(dayCell);
+    }
+  }
+
+  function selectDate(day, month, year) {
+    selectedDate = new Date(year, month, day);
+    const dayStr = String(day).padStart(2, '0');
+    const monthStr = String(month + 1).padStart(2, '0');
+
+    input.value = `${dayStr}/${monthStr}`;                    // o que o cliente vê
+    dataConsulta.value = `${year}-${monthStr}-${dayStr}`;     // o que vai para o banco
+
+    renderCalendar();
+    calendar.classList.remove('active');
+  }
+
+  input.addEventListener('click', (e) => {
+    e.stopPropagation();
+    calendar.classList.toggle('active');
+  });
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    viewDate.setMonth(viewDate.getMonth() - 1);
+    renderCalendar();
+  });
+
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    viewDate.setMonth(viewDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  todayBtn.addEventListener('click', () => {
+    viewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    selectDate(currentDate.getDate(), currentDate.getMonth(), currentDate.getFullYear());
+  });
+
+  clearBtn.addEventListener('click', () => {
+    selectedDate = null;
+    input.value = '';
+    dataConsulta.value = '';
+    renderCalendar();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!calendar.contains(e.target) && e.target !== input) {
+      calendar.classList.remove('active');
+    }
+  });
+
+  renderCalendar();
+
+  // Máscara DD/MM/AAAA
+  document.getElementById('nascimento').addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+    if (v.length > 4) v = v.replace(/(\d{2})(\d{2})(\d+)/, '$1/$2/$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, '$1/$2');
+    e.target.value = v;
+  });
+
+  // Envio para o servidor
+  const form = document.getElementById('form-agendamento');
+  const botao = document.getElementById('btn-enviar');
+  const status = document.getElementById('status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const dados = Object.fromEntries(new FormData(form));
+    const [d, m, a] = dados.nascimento.split('/');
+    dados.nascimento = `${a}-${m}-${d}`;          // DD/MM/AAAA -> AAAA-MM-DD
+    const diaConsulta = input.value;
+
+    botao.disabled = true;
+    status.className = '';
+    status.textContent = 'Enviando...';
+
+    try {
+      const resp = await fetch('/api/agendamentos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+      const json = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(json.erro || 'Não foi possível agendar. Tente novamente.');
+
+      form.reset();
+      dataConsulta.value = '';
+      selectedDate = null;
+      renderCalendar();
+      status.textContent = `Consulta agendada para ${diaConsulta}. Entraremos em contato para confirmar.`;
+      status.className = 'ok';
+    } catch (err) {
+      status.textContent = err instanceof TypeError
+        ? 'Sem conexão com o servidor. Verifique sua internet e tente de novo.'
+        : err.message;
+      status.className = 'erro';
+    } finally {
+      botao.disabled = false;
+    }
+  });
+});
+</script>
+</body>
+</html>
