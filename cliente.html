@@ -243,8 +243,27 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const dados = Object.fromEntries(new FormData(form));
-    const [d, m, a] = dados.nascimento.split('/');
-    dados.nascimento = `${a}-${m}-${d}`;          // DD/MM/AAAA -> AAAA-MM-DD
+    const nascimentoInformado = String(dados.nascimento || '').trim();
+    const partesNascimento = nascimentoInformado.split('/');
+
+    if (
+      partesNascimento.length !== 3 ||
+      partesNascimento.some((parte) => !/^\d+$/.test(parte))
+    ) {
+      status.textContent = 'Informe a data de nascimento no formato DD/MM/AAAA.';
+      status.className = 'erro';
+      return;
+    }
+
+    const [d, m, a] = partesNascimento;
+    dados.nascimento = `${a}-${m}-${d}`; // DD/MM/AAAA -> AAAA-MM-DD
+
+    if (!dados.data_consulta) {
+      status.textContent = 'Selecione uma data para a consulta.';
+      status.className = 'erro';
+      return;
+    }
+
     const diaConsulta = input.value;
 
     botao.disabled = true;

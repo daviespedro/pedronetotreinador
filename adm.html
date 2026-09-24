@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedro Neto — Personal Trainer | Consultoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+  <nav>
+    <div class="logo">
+      <a href="index.html" class="logo-link">
+        <img src="image/logobranca1.png" alt="logo PN" class="logo-img">
+      </a>
+      <div>
+        <span class="logo-word">PEDRO NETO</span>
+        <span class="logo-sub">TREINO · CONSULTORIA</span>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">O método</a>
+      <a href="index.html">O profissional</a>
+      <a href="index.html">Filosofia</a>
+      <a href="index.html">Nutrição</a>
+      <a href="index.html">Como funciona</a>
+      <a href="cliente.html" class="nav-cta">Agendar avaliação</a>
+    </div>
+  </nav>
+</header>
+ <main class="container">
+    <section id="loginCard" class="card login">
+      <h2>Acesso do administrador</h2>
+      <p style="color:#6b7280;">Digite a senha configurada no servidor para visualizar os agendamentos.</p>
+
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" placeholder="Senha do administrador">
+      <button id="entrar" class="btn-primary" type="button" style="margin-top:12px;width:100%;">Entrar</button>
+      <p id="loginStatus" class="status" role="status"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="stats">
+        <div class="stat">
+          <span>Total de consultas</span>
+          <strong id="total">0</strong>
+        </div>
+        <div class="stat">
+          <span>Consultas a partir de hoje</span>
+          <strong id="futuras">0</strong>
+        </div>
+        <div class="stat">
+          <span>Próxima consulta</span>
+          <strong id="proxima">—</strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="actions">
+          <input id="busca" class="search" type="search" placeholder="Pesquisar por nome, telefone ou data..."></input>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button id="atualizar" class="btn-primary" type="button">Atualizar</button>
+            <button id="imprimir" class="btn-secondary" type="button">Imprimir</button>
+          </div>
+        </div>
+
+        <p id="dashboardStatus" class="status" role="status"></p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Nascimento</th>
+                <th>Telefone / WhatsApp</th>
+                <th>Consulta</th>
+                <th>Agendado em</th>
+              </tr>
+            </thead>
+            <tbody id="tabela"></tbody>
+          </table>
+          <div id="vazio" class="empty hidden">Nenhum agendamento encontrado.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const loginCard = document.getElementById('loginCard');
+    const dashboard = document.getElementById('dashboard');
+    const senhaInput = document.getElementById('senha');
+    const entrar = document.getElementById('entrar');
+    const logout = document.getElementById('logout');
+    const loginStatus = document.getElementById('loginStatus');
+    const dashboardStatus = document.getElementById('dashboardStatus');
+    const busca = document.getElementById('busca');
+    const atualizar = document.getElementById('atualizar');
+    const imprimir = document.getElementById('imprimir');
+    const tabela = document.getElementById('tabela');
+    const vazio = document.getElementById('vazio');
+
+    const totalEl = document.getElementById('total');
+    const futurasEl = document.getElementById('futuras');
+    const proximaEl = document.getElementById('proxima');
+
+    let agendamentos = [];
+    let senha = sessionStorage.getItem('admin_password') || '';
+
+    function formatarData(iso) {
+      if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || '—';
+      const [ano, mes, dia] = iso.split('-');
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    function formatarTelefone(numero) {
+      const n = String(numero || '').replace(/\D/g, '');
+      if (n.length === 11) return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
+      if (n.length === 10) return `(${n.slice(0,2)}) ${n.slice(2,6)}-${n.slice(6)}`;
+      return n || '—';
+    }
+
+    function formatarCriadoEm(valor) {
+      if (!valor) return '—';
+      const data = new Date(valor.replace(' ', 'T') + 'Z');
+      if (Number.isNaN(data.getTime())) return valor;
+      return new Intl.DateTimeFormat('pt-BR', {
+        dateStyle: 'short',
+        timeStyle: 'short'
+      }).format(data);
+    }
+
+    function atualizarResumo() {
+      const hoje = new Date();
+      const hojeISO = [hoje.getFullYear(), String(hoje.getMonth() + 1).padStart(2,'0'), String(hoje.getDate()).padStart(2,'0')].join('-');
+      const futuras = agendamentos.filter(item => item.data_consulta >= hojeISO);
+
+      totalEl.textContent = agendamentos.length;
+      futurasEl.textContent = futuras.length;
+      proximaEl.textContent = futuras.length ? formatarData(futuras[0].data_consulta) : '—';
+    }
+
+    function criarCelula(texto) {
+      const td = document.createElement('td');
+      td.textContent = texto;
+      return td;
+    }
+
+    function renderizar() {
+      const termo = busca.value.trim().toLowerCase();
+      tabela.innerHTML = '';
+
+      const filtrados = agendamentos.filter(item => {
+        const texto = [
+          item.id,
+          item.nome,
+          item.telefone,
+          item.data_consulta,
+          formatarData(item.data_consulta)
+        ].join(' ').toLowerCase();
+        return texto.includes(termo);
+      });
+
+      vazio.classList.toggle('hidden', filtrados.length !== 0);
+
+      for (const item of filtrados) {
+        const tr = document.createElement('tr');
+        tr.appendChild(criarCelula(item.id));
+        tr.appendChild(criarCelula(item.nome));
+        tr.appendChild(criarCelula(formatarData(item.nascimento)));
+        tr.appendChild(criarCelula(formatarTelefone(item.telefone)));
+
+        const consulta = document.createElement('td');
+        const badge = document.createElement('span');
+        badge.className = 'date-badge';
+        badge.textContent = formatarData(item.data_consulta);
+        consulta.appendChild(badge);
+        tr.appendChild(consulta);
+
+        tr.appendChild(criarCelula(formatarCriadoEm(item.criado_em)));
+        tabela.appendChild(tr);
+      }
+    }
+
+    async function carregarAgendamentos() {
+      if (!senha) return;
+
+      atualizar.disabled = true;
+      dashboardStatus.className = 'status';
+      dashboardStatus.textContent = 'Carregando consultas...';
+
+      try {
+        const resposta = await fetch('/api/admin/agendamentos', {
+          headers: { Authorization: `Bearer ${senha}` },
+          cache: 'no-store'
+        });
+
+        const dados = await resposta.json().catch(() => ({}));
+
+        if (!resposta.ok) {
+          throw new Error(dados.erro || 'Não foi possível carregar os agendamentos.');
+        }
+
+        agendamentos = Array.isArray(dados.agendamentos) ? dados.agendamentos : [];
+        atualizarResumo();
+        renderizar();
+        dashboardStatus.className = 'status success';
+        dashboardStatus.textContent = `Atualizado agora. ${agendamentos.length} consulta(s) encontrada(s).`;
+      } catch (erro) {
+        if (erro.message.includes('Senha') || erro.message.includes('ADMIN_PASSWORD')) {
+          sessionStorage.removeItem('admin_password');
+          senha = '';
+          mostrarLogin(erro.message);
+        } else {
+          dashboardStatus.className = 'status error';
+          dashboardStatus.textContent = erro.message;
+        }
+      } finally {
+        atualizar.disabled = false;
+      }
+    }
+
+    function mostrarLogin(mensagem = '') {
+      loginCard.classList.remove('hidden');
+      dashboard.classList.add('hidden');
+      logout.classList.add('hidden');
+      loginStatus.className = mensagem ? 'status error' : 'status';
+      loginStatus.textContent = mensagem;
+    }
+
+    function mostrarDashboard() {
+      loginCard.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+      logout.classList.remove('hidden');
+    }
+
+    async function entrarNoPainel() {
+      const valor = senhaInput.value.trim();
+
+      if (!valor) {
+        loginStatus.className = 'status error';
+        loginStatus.textContent = 'Digite a senha.';
+        return;
+      }
+
+      senha = valor;
+      sessionStorage.setItem('admin_password', senha);
+      mostrarDashboard();
+      await carregarAgendamentos();
+    }
+
+    entrar.addEventListener('click', entrarNoPainel);
+    senhaInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') entrarNoPainel();
+    });
+
+    atualizar.addEventListener('click', carregarAgendamentos);
+    busca.addEventListener('input', renderizar);
+    imprimir.addEventListener('click', () => window.print());
+
+    logout.addEventListener('click', () => {
+      sessionStorage.removeItem('admin_password');
+      senha = '';
+      agendamentos = [];
+      senhaInput.value = '';
+      tabela.innerHTML = '';
+      mostrarLogin();
+    });
+
+    if (senha) {
+      mostrarDashboard();
+      carregarAgendamentos();
+    }
+  </script>
+</body>
+</html>
+
+</body>

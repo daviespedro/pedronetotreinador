@@ -1,0 +1,32 @@
+PAINEL ADMINISTRATIVO - PEDRO NETO
+
+1) Estrutura:
+   projeto/
+   ├── server.js
+   ├── package.json
+   ├── .env
+   ├── agendamentos.db       (criado automaticamente)
+   └── public/
+       ├── cliente.html
+       └── admin.html
+
+2) Instale as dependências:
+   npm install
+
+3) Crie um arquivo chamado .env na mesma pasta do server.js e coloque:
+   ADMIN_PASSWORD=uma-senha-forte
+
+   Exemplo:
+   ADMIN_PASSWORD=PedroNeto@2026!Painel
+
+4) Inicie:
+   npm start
+
+5) Área do cliente:
+   http://localhost:3000/cliente.html
+
+6) Área administrativa:
+   http://localhost:3000/admin.html
+
+A senha do administrador NÃO deve ser colocada dentro do HTML.
+O arquivo .env está no .gitignore para evitar que a senha seja enviada ao Git.
