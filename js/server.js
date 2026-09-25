@@ -1,11 +1,14 @@
-
 require('dotenv').config();
 
 const express = require('express');
 const Database = require('better-sqlite3');
 const path = require('path');
+const cors = require('cors'); // 1. IMPORTAR O CORS AQUI
 
 const app = express();
+
+// 2. ATIVAR O CORS ANTES DAS ROTAS
+app.use(cors()); 
 
 const db = new Database(path.join(__dirname, 'agendamentos.db'));
 
@@ -178,7 +181,6 @@ app.post('/api/agendamentos', (req, res) => {
   }
 });
 
-// Lista de consultas para a área administrativa.
 app.get('/api/admin/agendamentos', (req, res) => {
   if (!senhaAdminValida(req)) {
     if (!process.env.ADMIN_PASSWORD) {
@@ -212,18 +214,10 @@ app.get('/api/admin/agendamentos', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(
-    `Servidor rodando em http://localhost:${PORT}/cliente.html`
-  );
-
-  console.log(
-    `Painel administrativo: http://localhost:${PORT}/admin.html`
-  );
+  console.log(`Servidor rodando em http://localhost:${PORT}/cliente.html`);
+  console.log(`Painel administrativo: http://localhost:${PORT}/admin.html`);
 
   if (!process.env.ADMIN_PASSWORD) {
-    console.warn(
-      'ATENÇÃO: defina ADMIN_PASSWORD antes de usar o painel administrativo.'
-    );
+    console.warn('ATENÇÃO: defina ADMIN_PASSWORD antes de usar o painel administrativo.');
   }
 });
-
