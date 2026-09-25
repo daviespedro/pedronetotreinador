@@ -195,10 +195,10 @@
       dashboardStatus.textContent = 'Carregando consultas...';
 
       try {
-        const resposta = await fetch('/api/admin/agendamentos', {
-          headers: { Authorization: `Bearer ${senha}` },
-          cache: 'no-store'
-        });
+        const resposta = await fetch('http://localhost:3000/api/admin/agendamentos', {
+  headers: { Authorization: `Bearer ${senha}` },
+  cache: 'no-store'
+});
 
         const dados = await resposta.json().catch(() => ({}));
 
