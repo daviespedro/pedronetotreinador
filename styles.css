@@ -44,6 +44,7 @@
   nav{
     display:flex;align-items:center;justify-content:space-between;
     padding:18px 32px;max-width:1180px;margin:0 auto;
+    font-family: 'Helvetica', sans-serif;
   }
   .logo{display:flex;align-items:center;gap:10px;color:var(--white);}
   .logo-mark{
@@ -58,8 +59,18 @@
   }
   .nav-links a:hover{color:var(--white);}
   .nav-cta{
-    background:var(--white);color:var(--navy)!important;
+    background:#0e2d57;color: white !important;
     padding:10px 20px;border-radius:30px;font-weight:700;font-size:13px;
+  }
+
+  .nav-cta1{
+    background:#0c438b;color: white !important;
+    padding:10px 20px;border-radius:30px;font-weight:700;font-size:13px;
+  }
+
+  .nav-cta:hover, .nav-cta1:hover{
+    background-color: #3a6097;
+
   }
   .nav-toggle{display:none;background:none;border:0;color:var(--white);font-size:22px;cursor:pointer;}
 
@@ -113,9 +124,9 @@
     padding:28px;border-radius:2px;position:relative;
   }
   .hero-panel img{width:100%;height:300px;object-fit:cover;border-radius:2px;margin-bottom:18px;filter:grayscale(15%);}
-  .hero-panel .stat-row{display:flex;justify-content:space-between;border-top:1px solid rgba(13,27,42,0.12);padding-top:16px;}
-  .hero-panel .stat b{display:block;font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;justify-content: center;}
-  .hero-panel .stat span{font-size:11.5px;color:var(--blue);font-family:'IBM Plex Mono',monospace;letter-spacing:0.08em;}
+  .hero-panel .stat2 {display:flex;justify-content:space-between;border-top:1px solid rgba(13,27,42,0.12);padding-top:16px;}
+  .hero-panel .stat2 b{display:block;font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;justify-content: center;}
+  .hero-panel .stat2 span{font-size:13.5px;color:var(--blue);font-family:'IBM Plex Mono',monospace;letter-spacing:0.08em;}
 
   /* ---------- PILLARS ---------- */
   .pillars{padding:110px 0 100px;}
@@ -554,6 +565,8 @@ body.adm{
 
 /* Cards Generais */
 .card {
+  width: 100%;
+  height: 100%;
   background:#fafbfb;
   color:#1B3E6F;
   border-radius: 30px;
@@ -567,7 +580,7 @@ body.adm{
    ========================================================================== */
 .card.login {
   font-family: 'Helvetica', sans-serif;
-  max-width: 420px;
+  max-width: 600px;
   margin: 60px auto 0;
   display: flex;
   flex-direction: column;
