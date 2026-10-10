@@ -69,6 +69,13 @@ const normalizarDataConsulta = (s) => {
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rota POST: Guarda no SQLite E no Supabase simultaneamente
@@ -86,8 +93,8 @@ app.post('/api/agendamentos', async (req, res) => {
     erro = 'Informe seu nome completo.';
   } else if (!nascimentoISO || !dataValida(nascimentoISO) || nascimentoISO < '1900-01-01' || nascimentoISO > hoje) {
     erro = 'Data de nascimento inválida. Use o formato DD/MM/AAAA.';
-  } else if (tel.length < 10 || tel.length > 13) {
-    erro = 'Informe um telefone válido, com DDD.';
+  } else if (tel.length !== 11) {
+    erro = 'Informe um celular válido com DDD.';
   } else if (!consultaISO || !dataValida(consultaISO) || consultaISO < hoje) {
     erro = 'Data da consulta inválida. Use o formato DD/MM (ex: 27/09).';
   }
@@ -125,8 +132,26 @@ app.post('/api/agendamentos', async (req, res) => {
   }
 });
 
-// Rota GET: Procura do Supabase; se falhar ou estiver sem internet, usa o SQLite como fallback
-app.get('/api/admin/agendamentos', async (req, res) => {
+// Auth admin: compara Bearer com ADMIN_PASSWORD (.env)
+const auth = (req, res, next) => {
+  const senha = process.env.ADMIN_PASSWORD;
+  if (!senha) return res.status(500).json({ erro: 'ADMIN_PASSWORD não configurada no .env.' });
+  if (req.get('Authorization') !== `Bearer ${senha}`) return res.status(401).json({ erro: 'Senha incorreta.' });
+  next();
+};
+
+// Rota GET: mostra o SQLite local; usa Supabase só se o banco local estiver vazio.
+app.get('/api/admin/agendamentos', auth, async (req, res) => {
+  let agendamentosLocal = [];
+  try {
+    agendamentosLocal = db.prepare('SELECT * FROM agendamentos ORDER BY criado_em DESC').all();
+    if (agendamentosLocal.length) {
+      return res.json({ agendamentos: agendamentosLocal, origem: 'SQLite Local' });
+    }
+  } catch (e) {
+    return res.status(500).json({ erro: 'Erro ao consultar o banco de dados.' });
+  }
+
   try {
     const { data, error } = await supabase
       .from('agendamentos')
@@ -140,13 +165,27 @@ app.get('/api/admin/agendamentos', async (req, res) => {
     console.warn('Servidor sem ligação ao Supabase. A carregar do SQLite local...');
   }
 
-  // Fallback para o SQLite caso o Supabase não responda
-  try {
-    const agendamentosLocal = db.prepare('SELECT * FROM agendamentos ORDER BY criado_em DESC').all();
-    res.json({ agendamentos: agendamentosLocal, origem: 'SQLite Local' });
-  } catch (e) {
-    res.status(500).json({ erro: 'Erro ao consultar o banco de dados.' });
+  res.json({ agendamentos: agendamentosLocal, origem: 'SQLite Local' });
+});
+
+// Rota DELETE: apaga no SQLite e no Supabase (senão o fallback ressuscita o registro)
+app.delete('/api/admin/agendamentos/:id', auth, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) return res.status(400).json({ erro: 'ID inválido.' });
+  const row = db.prepare('SELECT * FROM agendamentos WHERE id = ?').get(id);
+  let q = supabase.from('agendamentos').delete();
+  if (row) {
+    db.prepare('DELETE FROM agendamentos WHERE id = ?').run(id);
+    const { nome, nascimento, telefone, data_consulta } = row;
+    q = q.match({ nome, nascimento, telefone, data_consulta });
+  } else {
+    q = q.eq('id', id); // painel estava lendo do Supabase
   }
+  let error = null;
+  try { ({ error } = await q); } catch (e) { error = e; }
+  if (error) console.error('⚠️ Erro ao apagar no Supabase:', error.message);
+  if (!row && error) return res.status(404).json({ erro: 'Não encontrado.' });
+  res.json({ ok: true, supabase: !error });
 });
 
 const PORT = process.env.PORT || 3000;

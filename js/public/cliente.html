@@ -63,7 +63,7 @@
 
         <div class="dados">
           <label for="telefone" class="nascimento-cli">Número de telefone / WhatsApp</label>
-          <input type="tel" id="telefone" name="telefone" placeholder="(11) 91234-5678" required autocomplete="tel">
+          <input type="tel" id="telefone" name="telefone" placeholder="(11) 91234-5678" maxlength="15" inputmode="numeric" required autocomplete="tel">
         </div>
 
         <div class="dados">
@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('next-btn');
   const todayBtn = document.getElementById('today-btn');
   const clearBtn = document.getElementById('clear-btn');
+  const telefoneInput = document.getElementById('telefone');
 
   const currentDate = new Date();
   // Sempre no dia 1, para o setMonth não "pular" meses quando hoje é dia 29, 30 ou 31
@@ -143,11 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     for (let day = 1; day <= totalDays; day++) {
-      const dayCell = document.createElement('div');
+      const dayCell = document.createElement('button');
+      dayCell.type = 'button';
       dayCell.textContent = day;
       dayCell.classList.add('cal-day');
 
       const thisDate = new Date(year, month, day);
+      const dataLabel = thisDate.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+      dayCell.setAttribute('aria-label', `Selecionar ${dataLabel}`);
 
       if (
         day === currentDate.getDate() &&
@@ -160,6 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const startOfToday = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
       if (thisDate < startOfToday) {
         dayCell.classList.add('disabled');
+        dayCell.disabled = true;
+        dayCell.setAttribute('aria-label', `${dataLabel} indisponível`);
       } else {
         dayCell.addEventListener('click', () => selectDate(day, month, year));
       }
@@ -234,10 +245,20 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = v;
   });
 
+  telefoneInput.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{1,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, '($1) $2');
+    else if (v.length > 0) v = v.replace(/(\d*)/, '($1');
+    e.target.value = v;
+  });
+
   // Envio para o servidor
   const form = document.getElementById('form-agendamento');
   const botao = document.getElementById('btn-enviar');
   const status = document.getElementById('status');
+  const API_BASE = location.port === '3000' ? '' : 'http://localhost:3000';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -257,9 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const [d, m, a] = partesNascimento;
     dados.nascimento = `${a}-${m}-${d}`; // DD/MM/AAAA -> AAAA-MM-DD
+    dados.telefone = String(dados.telefone || '').replace(/\D/g, '');
 
     if (!dados.data_consulta) {
       status.textContent = 'Selecione uma data para a consulta.';
+      status.className = 'erro';
+      return;
+    }
+
+    if (dados.telefone.length !== 11) {
+      status.textContent = 'Informe um celular válido com DDD, no formato (XX) XXXXX-XXXX.';
       status.className = 'erro';
       return;
     }
@@ -271,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     status.textContent = 'Enviando...';
 
     try {
-      const resp = await fetch('http://localhost:3000/api/agendamentos', {
+      const resp = await fetch(`${API_BASE}/api/agendamentos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)

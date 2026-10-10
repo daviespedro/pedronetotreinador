@@ -389,12 +389,12 @@ body.cliente {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 50%;
+  width: min(100%, 420px);
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15);
-  padding: 40px;
+  padding: 20px;
   z-index: 100;
   margin-top: 10px;
 }
@@ -448,7 +448,7 @@ body.cliente {
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
 
@@ -460,12 +460,17 @@ body.cliente {
 }
 
 .cal-day {
-  padding: 8px 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
   font-size: 13px;
   color: #334155;
   border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: 'Poppins', Helvetica, sans-serif;
 }
 
 .cal-day:not(.empty):not(.disabled):hover {
@@ -492,6 +497,7 @@ body.cliente {
   color: #cbd5e1; /* Cinza claro */
   cursor: not-allowed;
   text-decoration: line-through;
+  background: #f8fafc;
 }
 
 .cal-day.empty {
@@ -541,6 +547,7 @@ body.cliente {
   .mini-calendar {
     position: relative;
     top: 0;
+    width: 100%;
     box-shadow: none;
     border: 1px solid #e2e8f0;
     padding: 15px 10px;

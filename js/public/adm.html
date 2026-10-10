@@ -9,6 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>.btn-del{background:#b91c1c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}@media print{.btn-del,.col-del{display:none}}
+.print-only{display:none}
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body,body.adm,.container{background:#fff!important;color:#0f172a!important;font-family:'Open Sans',Helvetica,Arial,sans-serif!important;padding:0!important;max-width:none!important}
+  header,.actions,#dashboardStatus,#loginCard,.col-del,.btn-del{display:none!important}
+  .print-only{display:flex!important}
+  .ph{justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1B3E6F;padding-bottom:10px}
+  .ph img{height:44px;display:block;margin-bottom:6px}
+  .ph h1{margin:0;font:700 17pt Montserrat,Helvetica,Arial,sans-serif;color:#1B3E6F}
+  .ph small{color:#64748b;font-size:9pt}
+  .stats{grid-template-columns:repeat(3,1fr)!important;gap:10px!important;box-shadow:none!important}
+  .stat{background:#eef3fa!important;border:1px solid #cfdcef!important;border-radius:10px!important;padding:10px 14px!important;box-shadow:none!important;gap:2px!important;break-inside:avoid}
+  .stat span{color:#475569!important;font-size:9pt!important}
+  .stat strong{color:#1B3E6F!important;font-size:16pt!important}
+  .card{background:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;opacity:1!important}
+  .table-wrap{overflow:visible!important;margin:0!important}
+  table{border:0!important;font-size:9.5pt!important}
+  thead{display:table-header-group}
+  tr{break-inside:avoid}
+  th{background:#1B3E6F!important;color:#fff!important;padding:8px 10px!important;font:600 8pt Montserrat,Helvetica,Arial,sans-serif!important;text-transform:uppercase;letter-spacing:.05em;border:0!important}
+  td{padding:8px 10px!important;border-bottom:1px solid #e2e8f0!important;color:#0f172a!important;font-family:inherit!important}
+  tbody tr:nth-child(even){background:#f4f7fb!important}
+  .date-badge{background:none!important;border:0!important;padding:0!important;color:#1B3E6F!important;font-weight:700!important}
+}
+</style>
 </head>
 <body class="adm">
     <header>
@@ -45,6 +72,14 @@
     </section>
 
     <section id="dashboard" class="hidden">
+      <div class="print-only ph">
+        <div>
+          <img src="image/logobranca1.png" alt="Pedro Neto">
+          <h1>Relatório de agendamentos</h1>
+          <small>Pedro Neto · Treino · Consultoria</small>
+        </div>
+        <small>Gerado em <span id="geradoEm"></span></small>
+      </div>
       <div class="stats">
         <div class="stat">
           <span>Total de consultas</span>
@@ -62,7 +97,7 @@
 
       <div class="card">
         <div class="actions">
-          <input id="busca" class="search" type="search" placeholder="Pesquisar por nome, telefone ou data..."></input>
+          <input id="busca" class="search" type="search" placeholder="Pesquisar por nome, telefone ou data...">
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button id="atualizar" class="btn-primary" type="button">Atualizar</button>
             <button id="imprimir" class="btn-secondary" type="button">Imprimir</button>
@@ -81,6 +116,7 @@
                 <th>Telefone / WhatsApp</th>
                 <th>Consulta</th>
                 <th>Agendado em</th>
+                <th class="col-del"></th>
               </tr>
             </thead>
             <tbody id="tabela"></tbody>
@@ -104,6 +140,7 @@
     const imprimir = document.getElementById('imprimir');
     const tabela = document.getElementById('tabela');
     const vazio = document.getElementById('vazio');
+    const API_BASE = location.port === '3000' ? '' : 'http://localhost:3000';
 
     const totalEl = document.getElementById('total');
     const futurasEl = document.getElementById('futuras');
@@ -183,6 +220,16 @@
         tr.appendChild(consulta);
 
         tr.appendChild(criarCelula(formatarCriadoEm(item.criado_em)));
+
+        const acao = document.createElement('td');
+        acao.className = 'col-del';
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn-del';
+        del.textContent = 'Apagar';
+        del.addEventListener('click', () => apagar(item));
+        acao.appendChild(del);
+        tr.appendChild(acao);
         tabela.appendChild(tr);
       }
     }
@@ -195,10 +242,10 @@
       dashboardStatus.textContent = 'Carregando consultas...';
 
       try {
-        const resposta = await fetch('http://localhost:3000/api/admin/agendamentos', {
-  headers: { Authorization: `Bearer ${senha}` },
-  cache: 'no-store'
-});
+        const resposta = await fetch(`${API_BASE}/api/admin/agendamentos`, {
+          headers: { Authorization: `Bearer ${senha}` },
+          cache: 'no-store'
+        });
 
         const dados = await resposta.json().catch(() => ({}));
 
@@ -212,6 +259,7 @@
         dashboardStatus.className = 'status success';
         dashboardStatus.textContent = `Atualizado agora. ${agendamentos.length} consulta(s) encontrada(s).`;
       } catch (erro) {
+        if (erro instanceof TypeError) erro.message = 'Servidor offline. Rode "npm start" na pasta js e abra http://localhost:3000/adm.html';
         if (erro.message.includes('Senha') || erro.message.includes('ADMIN_PASSWORD')) {
           sessionStorage.removeItem('admin_password');
           senha = '';
@@ -225,10 +273,24 @@
       }
     }
 
+    async function apagar(item) {
+      if (!confirm(`Apagar "${item.nome}" (consulta ${formatarData(item.data_consulta)})? Não dá pra desfazer.`)) return;
+      const r = await fetch(`${API_BASE}/api/admin/agendamentos/${item.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${senha}` }
+      }).catch(() => null);
+      if (r && r.ok) return carregarAgendamentos();
+      const d = r ? await r.json().catch(() => ({})) : {};
+      dashboardStatus.className = 'status error';
+      dashboardStatus.textContent = d.erro || (r
+        ? `Servidor respondeu ${r.status}. Reinicie o servidor (Ctrl+C e npm start).`
+        : 'Sem conexão com o servidor. Reinicie com npm start e abra http://localhost:3000/adm.html');
+    }
+
     function mostrarLogin(mensagem = '') {
       loginCard.classList.remove('hidden');
       dashboard.classList.add('hidden');
-      logout.classList.add('hidden');
+      if (logout) logout.classList.add('hidden');
       loginStatus.className = mensagem ? 'status error' : 'status';
       loginStatus.textContent = mensagem;
     }
@@ -236,7 +298,7 @@
     function mostrarDashboard() {
       loginCard.classList.add('hidden');
       dashboard.classList.remove('hidden');
-      logout.classList.remove('hidden');
+      if (logout) logout.classList.remove('hidden');
     }
 
     async function entrarNoPainel() {
@@ -261,16 +323,21 @@
 
     atualizar.addEventListener('click', carregarAgendamentos);
     busca.addEventListener('input', renderizar);
+    window.addEventListener('beforeprint', () => {
+      document.getElementById('geradoEm').textContent = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+    });
     imprimir.addEventListener('click', () => window.print());
 
-    logout.addEventListener('click', () => {
-      sessionStorage.removeItem('admin_password');
-      senha = '';
-      agendamentos = [];
-      senhaInput.value = '';
-      tabela.innerHTML = '';
-      mostrarLogin();
-    });
+    if (logout) {
+      logout.addEventListener('click', () => {
+        sessionStorage.removeItem('admin_password');
+        senha = '';
+        agendamentos = [];
+        senhaInput.value = '';
+        tabela.innerHTML = '';
+        mostrarLogin();
+      });
+    }
 
     if (senha) {
       mostrarDashboard();
@@ -279,5 +346,3 @@
   </script>
 </body>
 </html>
-
-</body>
