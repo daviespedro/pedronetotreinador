@@ -143,7 +143,7 @@
     const imprimir = document.getElementById('imprimir');
     const tabela = document.getElementById('tabela');
     const vazio = document.getElementById('vazio');
-    const API_BASE = location.port === '3000' ? '' : 'http://localhost:3000';
+    const API_BASE = '';
 
     const totalEl = document.getElementById('total');
     const futurasEl = document.getElementById('futuras');
@@ -287,7 +287,7 @@
         dashboardStatus.className = 'status success';
         dashboardStatus.textContent = `Atualizado agora. ${agendamentos.length} consulta(s) encontrada(s).`;
       } catch (erro) {
-        if (erro instanceof TypeError) erro.message = 'Servidor offline. Rode "npm start" na pasta js e abra http://localhost:3000/adm.html';
+        if (erro instanceof TypeError) erro.message = 'Não foi possível conectar ao servidor. Atualize a página e tente novamente.';
         if (erro.message.includes('Senha') || erro.message.includes('ADMIN_PASSWORD')) {
           sessionStorage.removeItem('admin_password');
           senha = '';
@@ -312,7 +312,7 @@
       dashboardStatus.className = 'status error';
       dashboardStatus.textContent = d.erro || (r
         ? `Servidor respondeu ${r.status}. Reinicie o servidor (Ctrl+C e npm start).`
-        : 'Sem conexão com o servidor. Reinicie com npm start e abra http://localhost:3000/adm.html');
+        : 'Não foi possível conectar ao servidor. Atualize a página e tente novamente.');
     }
 
     function mostrarLogin(mensagem = '') {
