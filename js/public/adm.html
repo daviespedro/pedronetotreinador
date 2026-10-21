@@ -9,13 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<style>.btn-del{background:#b91c1c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}@media print{.btn-del,.col-del{display:none}}
+<style>.btn-del{background:#b91c1c;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}@media print{.btn-del,.col-del,.btn-whats,.col-wa{display:none}}
+.btn-whats{display:inline-flex;align-items:center;background:linear-gradient(180deg,#16a34a,#15803d);color:#fff;border-radius:8px;padding:6px 12px;font:600 .85rem 'Montserrat',sans-serif;text-decoration:none;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 14px -6px rgba(21,128,61,.6);transition:all .3s ease-in-out}
+.btn-whats:hover{transform:translateY(-1px) scale(1.05);filter:brightness(1.08)}
 .print-only{display:none}
 @media print{
   @page{size:A4 portrait;margin:14mm}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   html,body,body.adm,.container{background:#fff!important;color:#0f172a!important;font-family:'Open Sans',Helvetica,Arial,sans-serif!important;padding:0!important;max-width:none!important}
-  header,.actions,#dashboardStatus,#loginCard,.col-del,.btn-del{display:none!important}
+  header,.actions,#dashboardStatus,#loginCard,.col-del,.btn-del,.col-wa,.btn-whats{display:none!important}
   .print-only{display:flex!important}
   .ph{justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1B3E6F;padding-bottom:10px}
   .ph img{height:44px;display:block;margin-bottom:6px}
@@ -82,22 +84,22 @@
       </div>
       <div class="stats">
         <div class="stat">
-          <span>Total de consultas</span>
+          <span>Total de agendamentos</span>
           <strong id="total">0</strong>
         </div>
         <div class="stat">
-          <span>Consultas a partir de hoje</span>
-          <strong id="futuras">0</strong>
+          <span>Recebidos hoje</span>
+          <strong id="hoje">0</strong>
         </div>
         <div class="stat">
-          <span>Próxima consulta</span>
-          <strong id="proxima">—</strong>
+          <span>Último agendamento</span>
+          <strong id="ultimo">—</strong>
         </div>
       </div>
 
       <div class="card">
         <div class="actions">
-          <input id="busca" class="search" type="search" placeholder="Pesquisar por nome, telefone ou data...">
+          <input id="busca" class="search" type="search" placeholder="Pesquisar por nome ou telefone...">
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button id="atualizar" class="btn-primary" type="button">Atualizar</button>
             <button id="imprimir" class="btn-secondary" type="button">Imprimir</button>
@@ -113,8 +115,8 @@
                 <th>ID</th>
                 <th>Cliente</th>
                 <th>Nascimento</th>
-                <th>Telefone / WhatsApp</th>
-                <th>Consulta</th>
+                <th>Telefone</th>
+                <th class="col-wa">WhatsApp</th>
                 <th>Agendado em</th>
                 <th>Atestado</th>
                 <th class="col-del"></th>
@@ -146,8 +148,8 @@
     const API_BASE = '';
 
     const totalEl = document.getElementById('total');
-    const futurasEl = document.getElementById('futuras');
-    const proximaEl = document.getElementById('proxima');
+    const hojeEl = document.getElementById('hoje');
+    const ultimoEl = document.getElementById('ultimo');
 
     let agendamentos = [];
     let senha = '';
@@ -191,14 +193,32 @@
   }).format(data);
 }
 
+    function dataDoRegistro(valor) {
+      if (!valor) return null;
+      const iso = valor.includes('T') ? valor : valor.replace(' ', 'T') + 'Z';
+      const data = new Date(iso);
+      return Number.isNaN(data.getTime()) ? null : data;
+    }
+
     function atualizarResumo() {
-      const hoje = new Date();
-      const hojeISO = [hoje.getFullYear(), String(hoje.getMonth() + 1).padStart(2,'0'), String(hoje.getDate()).padStart(2,'0')].join('-');
-      const futuras = agendamentos.filter(item => item.data_consulta >= hojeISO);
+      const hoje = new Date().toDateString();
+      const recebidosHoje = agendamentos.filter(item => {
+        const data = dataDoRegistro(item.criado_em);
+        return data && data.toDateString() === hoje;
+      });
+      const ultimo = agendamentos.length ? dataDoRegistro(agendamentos[0].criado_em) : null;
 
       totalEl.textContent = agendamentos.length;
-      futurasEl.textContent = futuras.length;
-      proximaEl.textContent = futuras.length ? formatarData(futuras[0].data_consulta) : '—';
+      hojeEl.textContent = recebidosHoje.length;
+      ultimoEl.textContent = ultimo ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' }).format(ultimo) : '—';
+    }
+
+    // Link do WhatsApp para o número que o cliente informou (DDD + número, com 55 na frente)
+    function linkWhatsApp(numero) {
+      let n = String(numero || '').replace(/\D/g, '');
+      if ((n.length === 12 || n.length === 13) && n.startsWith('55')) return `https://wa.me/${n}`;
+      if (n.length === 10 || n.length === 11) return `https://wa.me/55${n}`;
+      return null;
     }
 
     function criarCelula(texto) {
@@ -216,8 +236,7 @@
           item.id,
           item.nome,
           item.telefone,
-          item.data_consulta,
-          formatarData(item.data_consulta)
+          formatarTelefone(item.telefone)
         ].join(' ').toLowerCase();
         return texto.includes(termo);
       });
@@ -231,12 +250,22 @@
         tr.appendChild(criarCelula(formatarData(item.nascimento)));
         tr.appendChild(criarCelula(formatarTelefone(item.telefone)));
 
-        const consulta = document.createElement('td');
-        const badge = document.createElement('span');
-        badge.className = 'date-badge';
-        badge.textContent = formatarData(item.data_consulta);
-        consulta.appendChild(badge);
-        tr.appendChild(consulta); 
+        const whats = document.createElement('td');
+        whats.className = 'col-wa';
+        const urlWhats = linkWhatsApp(item.telefone);
+        if (urlWhats) {
+          const botaoWhats = document.createElement('a');
+          botaoWhats.href = urlWhats;
+          botaoWhats.target = '_blank';
+          botaoWhats.rel = 'noopener noreferrer';
+          botaoWhats.className = 'btn-whats';
+          botaoWhats.textContent = 'Chamar';
+          botaoWhats.setAttribute('aria-label', `Chamar ${item.nome} no WhatsApp`);
+          whats.appendChild(botaoWhats);
+        } else {
+          whats.textContent = '—';
+        }
+        tr.appendChild(whats);
 
         tr.appendChild(criarCelula(formatarCriadoEm(item.criado_em)));
 
@@ -272,7 +301,7 @@
 
       atualizar.disabled = true;
       dashboardStatus.className = 'status';
-      dashboardStatus.textContent = 'Carregando consultas...';
+      dashboardStatus.textContent = 'Carregando agendamentos...';
 
       try {
         const resposta = await fetch(`${API_BASE}/api/admin/agendamentos`, {
@@ -290,7 +319,7 @@
         atualizarResumo();
         renderizar();
         dashboardStatus.className = 'status success';
-        dashboardStatus.textContent = `Atualizado agora. ${agendamentos.length} consulta(s) encontrada(s).`;
+        dashboardStatus.textContent = `Atualizado agora. ${agendamentos.length} agendamento(s) encontrado(s).`;
       } catch (erro) {
         if (erro instanceof TypeError) erro.message = 'Não foi possível conectar ao servidor. Atualize a página e tente novamente.';
         if (erro.message.includes('Senha') || erro.message.includes('ADMIN_PASSWORD')) {
@@ -307,7 +336,7 @@
     }
 
     async function apagar(item) {
-      if (!confirm(`Apagar "${item.nome}" (consulta ${formatarData(item.data_consulta)})? Não dá pra desfazer.`)) return;
+      if (!confirm(`Apagar "${item.nome}"? Não dá pra desfazer.`)) return;
       const r = await fetch(`${API_BASE}/api/admin/agendamentos/${item.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${senha}` }

@@ -3,3 +3,5 @@ node_modules
 js/.env
 js/node_modules
 js/agendamentos.db
+.vercel
+.env*

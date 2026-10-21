@@ -130,15 +130,6 @@
             </div>
 
             <div class="dados">
-              <label for="objetivo" class="consulta-cli"
-                >Agende sua consulta</label
-              >
-              <input type="text" id="objetivo" placeholder="DD/MM" readonly />
-              <!-- data completa (com ano) enviada ao banco -->
-              <input type="hidden" id="data-consulta" name="data_consulta" />
-            </div>
-
-            <div class="dados">
               <label for="atestado"
                 >Atestado médico <span>(opcional)</span></label
               >
@@ -149,32 +140,6 @@
                 accept="application/pdf,image/jpeg,image/png,image/webp"
               />
               <small class="field-help">PDF ou imagem, até 10 MB.</small>
-            </div>
-
-            <div id="mini-calendar-popover" class="mini-calendar">
-              <div class="cal-header">
-                <button type="button" id="prev-btn">&lt;</button>
-                <span id="month-title" class="cal-title"></span>
-                <button type="button" id="next-btn">&gt;</button>
-              </div>
-
-              <div class="cal-grid">
-                <span class="cal-day-name">Dom</span>
-                <span class="cal-day-name">Seg</span>
-                <span class="cal-day-name">Ter</span>
-                <span class="cal-day-name">Qua</span>
-                <span class="cal-day-name">Qui</span>
-                <span class="cal-day-name">Sex</span>
-                <span class="cal-day-name">Sáb</span>
-              </div>
-
-              <div id="days-container" class="cal-grid"></div>
-              <div class="cal-footer">
-                <button type="button" id="today-btn">Hoje</button>
-                <button type="button" id="clear-btn" style="color: #64748b">
-                  Limpar
-                </button>
-              </div>
             </div>
           </div>
 
@@ -188,15 +153,6 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        const input = document.getElementById("objetivo");
-        const dataConsulta = document.getElementById("data-consulta");
-        const calendar = document.getElementById("mini-calendar-popover");
-        const monthTitle = document.getElementById("month-title");
-        const daysContainer = document.getElementById("days-container");
-        const prevBtn = document.getElementById("prev-btn");
-        const nextBtn = document.getElementById("next-btn");
-        const todayBtn = document.getElementById("today-btn");
-        const clearBtn = document.getElementById("clear-btn");
         const telefoneInput = document.getElementById("telefone");
         const navToggle = document.getElementById("navToggle");
         const navLinks = document.getElementById("navLinks");
@@ -216,154 +172,6 @@
             navToggle.setAttribute("aria-label", "Abrir menu");
           }),
         );
-
-        const currentDate = new Date();
-        // Sempre no dia 1, para o setMonth não "pular" meses quando hoje é dia 29, 30 ou 31
-        let viewDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          1,
-        );
-        let selectedDate = null;
-
-        const months = [
-          "Janeiro",
-          "Fevereiro",
-          "Março",
-          "Abril",
-          "Maio",
-          "Junho",
-          "Julho",
-          "Agosto",
-          "Setembro",
-          "Outubro",
-          "Novembro",
-          "Dezembro",
-        ];
-
-        function renderCalendar() {
-          const year = viewDate.getFullYear();
-          const month = viewDate.getMonth();
-
-          monthTitle.textContent = `${months[month]} ${year}`;
-          daysContainer.innerHTML = "";
-
-          const firstDayIndex = new Date(year, month, 1).getDay();
-          const totalDays = new Date(year, month + 1, 0).getDate();
-
-          for (let i = 0; i < firstDayIndex; i++) {
-            const emptyCell = document.createElement("div");
-            emptyCell.classList.add("cal-day", "empty");
-            daysContainer.appendChild(emptyCell);
-          }
-
-          for (let day = 1; day <= totalDays; day++) {
-            const dayCell = document.createElement("button");
-            dayCell.type = "button";
-            dayCell.textContent = day;
-            dayCell.classList.add("cal-day");
-
-            const thisDate = new Date(year, month, day);
-            const dataLabel = thisDate.toLocaleDateString("pt-BR", {
-              weekday: "long",
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            });
-            dayCell.setAttribute("aria-label", `Selecionar ${dataLabel}`);
-
-            if (
-              day === currentDate.getDate() &&
-              month === currentDate.getMonth() &&
-              year === currentDate.getFullYear()
-            ) {
-              dayCell.classList.add("today");
-            }
-
-            const startOfToday = new Date(
-              currentDate.getFullYear(),
-              currentDate.getMonth(),
-              currentDate.getDate(),
-            );
-            if (thisDate < startOfToday) {
-              dayCell.classList.add("disabled");
-              dayCell.disabled = true;
-              dayCell.setAttribute("aria-label", `${dataLabel} indisponível`);
-            } else {
-              dayCell.addEventListener("click", () =>
-                selectDate(day, month, year),
-              );
-            }
-
-            if (
-              selectedDate &&
-              day === selectedDate.getDate() &&
-              month === selectedDate.getMonth() &&
-              year === selectedDate.getFullYear()
-            ) {
-              dayCell.classList.add("selected");
-            }
-
-            daysContainer.appendChild(dayCell);
-          }
-        }
-
-        function selectDate(day, month, year) {
-          selectedDate = new Date(year, month, day);
-          const dayStr = String(day).padStart(2, "0");
-          const monthStr = String(month + 1).padStart(2, "0");
-
-          input.value = `${dayStr}/${monthStr}`; // o que o cliente vê
-          dataConsulta.value = `${year}-${monthStr}-${dayStr}`; // o que vai para o banco
-
-          renderCalendar();
-          calendar.classList.remove("active");
-        }
-
-        input.addEventListener("click", (e) => {
-          e.stopPropagation();
-          calendar.classList.toggle("active");
-        });
-
-        prevBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          viewDate.setMonth(viewDate.getMonth() - 1);
-          renderCalendar();
-        });
-
-        nextBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          viewDate.setMonth(viewDate.getMonth() + 1);
-          renderCalendar();
-        });
-
-        todayBtn.addEventListener("click", () => {
-          viewDate = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth(),
-            1,
-          );
-          selectDate(
-            currentDate.getDate(),
-            currentDate.getMonth(),
-            currentDate.getFullYear(),
-          );
-        });
-
-        clearBtn.addEventListener("click", () => {
-          selectedDate = null;
-          input.value = "";
-          dataConsulta.value = "";
-          renderCalendar();
-        });
-
-        document.addEventListener("click", (e) => {
-          if (!calendar.contains(e.target) && e.target !== input) {
-            calendar.classList.remove("active");
-          }
-        });
-
-        renderCalendar();
 
         // Máscara DD/MM/AAAA
         document.getElementById("nascimento").addEventListener("input", (e) => {
@@ -388,7 +196,6 @@
         const form = document.getElementById("form-agendamento");
         const botao = document.getElementById("btn-enviar");
         const status = document.getElementById("status");
-        const API_BASE = "";
 
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -411,20 +218,12 @@
           dados.nascimento = `${a}-${m}-${d}`; // DD/MM/AAAA -> AAAA-MM-DD
           dados.telefone = String(dados.telefone || "").replace(/\D/g, "");
 
-          if (!dados.data_consulta) {
-            status.textContent = "Selecione uma data para a consulta.";
-            status.className = "erro";
-            return;
-          }
-
           if (dados.telefone.length !== 11) {
             status.textContent =
               "Informe um celular válido com DDD, no formato (XX) XXXXX-XXXX.";
             status.className = "erro";
             return;
           }
-
-          const diaConsulta = input.value;
 
           botao.disabled = true;
           status.className = "";
@@ -446,10 +245,8 @@
               );
 
             form.reset();
-            dataConsulta.value = "";
-            selectedDate = null;
-            renderCalendar();
-            status.textContent = `Consulta agendada para ${diaConsulta}. Entraremos em contato para confirmar.`;
+            status.textContent =
+              "Agendamento recebido! Entraremos em contato pelo WhatsApp.";
             status.className = "ok";
           } catch (err) {
             status.textContent =

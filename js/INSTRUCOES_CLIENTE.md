@@ -8,9 +8,14 @@
 
 ## Consultar uma marcação
 
-- Use o campo de pesquisa para procurar pelo nome, telefone ou data.
-- Os cartões no topo mostram o total, as próximas consultas e a consulta mais próxima.
+- Use o campo de pesquisa para procurar pelo nome ou telefone.
+- Os cartões no topo mostram o total de agendamentos, quantos chegaram hoje e a data do último.
 - Use o botão **Atualizar** quando quiser ver as marcações mais recentes.
+
+## Chamar o cliente no WhatsApp
+
+- Na linha de cada marcação, clique em **Chamar**.
+- O WhatsApp abre uma conversa com o número que o cliente informou no formulário.
 
 ## Apagar uma marcação
 

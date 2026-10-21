@@ -42,25 +42,12 @@ const normalizarNascimento = (valor) => {
   return data;
 };
 
-const normalizarDataConsulta = (valor) => {
-  const data = String(valor || '').trim();
-  if (!/^\d{2}\/\d{2}$/.test(data)) return data;
-
-  const [dia, mes] = data.split('/');
-  const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
-  let ano = Number(hoje.slice(0, 4));
-  let consulta = `${ano}-${mes}-${dia}`;
-  if (consulta < hoje) consulta = `${++ano}-${mes}-${dia}`;
-  return consulta;
-};
-
 const validarAgendamento = (body) => {
   const hoje = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
   const agendamento = {
     nome: String(body.nome || '').trim(),
     nascimento: normalizarNascimento(body.nascimento),
     telefone: String(body.telefone || '').replace(/\D/g, ''),
-    data_consulta: normalizarDataConsulta(body.data_consulta),
   };
 
   if (agendamento.nome.length < 3 || agendamento.nome.length > 120) return { erro: 'Informe seu nome completo.' };
@@ -68,9 +55,6 @@ const validarAgendamento = (body) => {
     return { erro: 'Data de nascimento inválida. Use o formato DD/MM/AAAA.' };
   }
   if (agendamento.telefone.length !== 11) return { erro: 'Informe um celular válido com DDD.' };
-  if (!dataValida(agendamento.data_consulta) || agendamento.data_consulta < hoje) {
-    return { erro: 'Data da consulta inválida. Use o formato DD/MM (ex: 27/09).' };
-  }
   return { agendamento };
 };
 
