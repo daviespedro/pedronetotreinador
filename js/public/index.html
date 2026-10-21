@@ -32,9 +32,6 @@
       <a href="#processo">Como funciona</a>
       <a href="cliente.html" class="nav-cta1">Agendar avaliação</a>
       <a href="adm.html" class="nav-cta">Administrador</a>
-
-      </a>
-
     </div>
   </nav>
 </header>
@@ -84,30 +81,30 @@
         <p>Sono, estresse, carga de treino e evolução acompanhados de perto — ajustes constantes em vez de uma reavaliação genérica por mês.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="health-markers wrap" aria-label="O que muda na sua saúde">
-  <div class="marker-grid">
-    <div class="marker">
-      <span class="mono-label">ENERGIA</span>
-      <h4>Disposição no dia a dia</h4>
-      <p>Menos cansaço nas tarefas comuns, não só desempenho na academia.</p>
-    </div>
-    <div class="marker">
-      <span class="mono-label">SONO</span>
-      <h4>Recuperação de verdade</h4>
-      <p>Rotina ajustada para dormir melhor — base de qualquer resultado.</p>
-    </div>
-    <div class="marker">
-      <span class="mono-label">PREVENÇÃO</span>
-      <h4>Menos dor, menos lesão</h4>
-      <p>Mobilidade e força trabalhadas para proteger articulações e coluna.</p>
-    </div>
-    <div class="marker">
-      <span class="mono-label">LONGEVIDADE</span>
-      <h4>Anos ativos, não só magros</h4>
-      <p>Foco em manter autonomia e qualidade de vida ao longo do tempo.</p>
+    <div class="method-results" aria-label="Resultados do acompanhamento">
+      <p class="results-label">O que o plano trabalha no dia a dia</p>
+      <div class="marker-grid">
+        <div class="marker">
+          <span class="mono-label">ENERGIA</span>
+          <h4>Disposição no dia a dia</h4>
+          <p>Menos cansaço nas tarefas comuns, não só desempenho na academia.</p>
+        </div>
+        <div class="marker">
+          <span class="mono-label">SONO</span>
+          <h4>Recuperação de verdade</h4>
+          <p>Rotina ajustada para dormir melhor, base de qualquer resultado.</p>
+        </div>
+        <div class="marker">
+          <span class="mono-label">PREVENÇÃO</span>
+          <h4>Menos dor, menos lesão</h4>
+          <p>Mobilidade e força trabalhadas para proteger articulações e coluna.</p>
+        </div>
+        <div class="marker">
+          <span class="mono-label">LONGEVIDADE</span>
+          <h4>Anos ativos, não só magros</h4>
+          <p>Foco em manter autonomia e qualidade de vida ao longo do tempo.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -243,10 +240,12 @@
   toggle.addEventListener('click', () => {
     const isOpen = links.classList.toggle('open');
     toggle.setAttribute('aria-expanded', isOpen);
+    toggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
   });
   links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     links.classList.remove('open');
     toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Abrir menu');
   }));
 </script>
 

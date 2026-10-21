@@ -116,6 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const todayBtn = document.getElementById('today-btn');
   const clearBtn = document.getElementById('clear-btn');
   const telefoneInput = document.getElementById('telefone');
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+    navToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+  });
+  navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Abrir menu');
+  }));
 
   const currentDate = new Date();
   // Sempre no dia 1, para o setMonth não "pular" meses quando hoje é dia 29, 30 ou 31

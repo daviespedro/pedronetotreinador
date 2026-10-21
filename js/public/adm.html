@@ -128,6 +128,8 @@
   </main>
 
   <script>
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
     const loginCard = document.getElementById('loginCard');
     const dashboard = document.getElementById('dashboard');
     const senhaInput = document.getElementById('senha');
@@ -148,6 +150,17 @@
 
     let agendamentos = [];
     let senha = sessionStorage.getItem('admin_password') || '';
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menu');
+    }));
 
     function formatarData(iso) {
       if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || '—';
