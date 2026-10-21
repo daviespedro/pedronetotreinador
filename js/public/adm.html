@@ -177,14 +177,19 @@
     }
 
     function formatarCriadoEm(valor) {
-      if (!valor) return '—';
-      const data = new Date(valor.replace(' ', 'T') + 'Z');
-      if (Number.isNaN(data.getTime())) return valor;
-      return new Intl.DateTimeFormat('pt-BR', {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      }).format(data);
-    }
+  if (!valor) return '—';
+  
+  // Se a data já contiver 'T', usa direto; se for padrão SQLite "YYYY-MM-DD HH:MM:SS", ajusta
+  const iso = valor.includes('T') ? valor : valor.replace(' ', 'T') + 'Z';
+  const data = new Date(iso);
+  
+  if (Number.isNaN(data.getTime())) return valor;
+  
+  return new Intl.DateTimeFormat('pt-BR', {
+    dateStyle: 'short',
+    timeStyle: 'short'
+  }).format(data);
+}
 
     function atualizarResumo() {
       const hoje = new Date();
@@ -328,37 +333,38 @@
       dashboard.classList.remove('hidden');
       if (logout) logout.classList.remove('hidden');
     }
+async function entrarNoPainel() {
+      const valor = senhaInput.value.trim();
 
-    async function entrarNoPainel() {
-  const valor = senhaInput.value.trim();
+      if (!valor) {
+        loginStatus.className = 'status error';
+        loginStatus.textContent = 'Digite a senha.';
+        return;
+      }
 
-  if (!valor) {
-    loginStatus.className = 'status error';
-    loginStatus.textContent = 'Digite a senha.';
-    return;
-  }
-
-  senha = valor;
-  // A linha do sessionStorage foi removida daqui!
-  mostrarDashboard();
-  await carregarAgendamentos();
-} 
+      senha = valor;
+      mostrarDashboard();
+      await carregarAgendamentos();
+    }
 
     entrar.addEventListener('click', entrarNoPainel);
+    
     senhaInput.addEventListener('keydown', event => {
       if (event.key === 'Enter') entrarNoPainel();
     });
 
     atualizar.addEventListener('click', carregarAgendamentos);
+    
     busca.addEventListener('input', renderizar);
+    
     window.addEventListener('beforeprint', () => {
       document.getElementById('geradoEm').textContent = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
     });
+    
     imprimir.addEventListener('click', () => window.print());
 
     if (logout) {
       logout.addEventListener('click', () => {
-        sessionStorage.removeItem('admin_password');
         senha = '';
         agendamentos = [];
         senhaInput.value = '';
@@ -367,9 +373,12 @@
       });
     }
 
+    // Garante que a verificação inicial sempre caia no login
     if (senha) {
       mostrarDashboard();
       carregarAgendamentos();
+    } else {
+      mostrarLogin();
     }
   </script>
 </body>
