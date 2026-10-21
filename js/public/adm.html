@@ -150,7 +150,7 @@
     const proximaEl = document.getElementById('proxima');
 
     let agendamentos = [];
-    let senha = sessionStorage.getItem('admin_password') || '';
+    let senha = '';
 
     navToggle.addEventListener('click', () => {
       const isOpen = navLinks.classList.toggle('open');
@@ -330,19 +330,19 @@
     }
 
     async function entrarNoPainel() {
-      const valor = senhaInput.value.trim();
+  const valor = senhaInput.value.trim();
 
-      if (!valor) {
-        loginStatus.className = 'status error';
-        loginStatus.textContent = 'Digite a senha.';
-        return;
-      }
+  if (!valor) {
+    loginStatus.className = 'status error';
+    loginStatus.textContent = 'Digite a senha.';
+    return;
+  }
 
-      senha = valor;
-      sessionStorage.setItem('admin_password', senha);
-      mostrarDashboard();
-      await carregarAgendamentos();
-    }
+  senha = valor;
+  // A linha do sessionStorage foi removida daqui!
+  mostrarDashboard();
+  await carregarAgendamentos();
+}
 
     entrar.addEventListener('click', entrarNoPainel);
     senhaInput.addEventListener('keydown', event => {
