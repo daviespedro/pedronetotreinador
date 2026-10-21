@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form-agendamento');
   const botao = document.getElementById('btn-enviar');
   const status = document.getElementById('status');
-  const API_BASE = location.port === '3000' ? '' : 'http://localhost:3000';
+  const API_BASE = '';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
