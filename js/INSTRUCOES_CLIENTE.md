@@ -20,6 +20,11 @@
 
 Uma marcação apagada não pode ser recuperada pelo painel.
 
+## Ver um atestado médico
+
+- Quando houver um atestado, a coluna **Atestado** mostrará o botão **Abrir**.
+- O link abre o documento numa nova aba e fica disponível por tempo limitado.
+
 ## Imprimir ou guardar a lista
 
 1. Clique em **Imprimir**.

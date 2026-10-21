@@ -116,6 +116,7 @@
                 <th>Telefone / WhatsApp</th>
                 <th>Consulta</th>
                 <th>Agendado em</th>
+                <th>Atestado</th>
                 <th class="col-del"></th>
               </tr>
             </thead>
@@ -233,6 +234,20 @@
         tr.appendChild(consulta);
 
         tr.appendChild(criarCelula(formatarCriadoEm(item.criado_em)));
+
+        const atestado = document.createElement('td');
+        if (item.atestado_url) {
+          const link = document.createElement('a');
+          link.href = item.atestado_url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.className = 'document-link';
+          link.textContent = 'Abrir';
+          atestado.appendChild(link);
+        } else {
+          atestado.textContent = '—';
+        }
+        tr.appendChild(atestado);
 
         const acao = document.createElement('td');
         acao.className = 'col-del';

@@ -49,7 +49,7 @@
       <p> Seus dados serão analisados de forma segura.</p>
     </div>
 
-    <form id="form-agendamento">
+    <form id="form-agendamento" enctype="multipart/form-data">
       <div class="dados-container">
         <div class="dados">
           <label for="nome" class="nome-cli">Nome completo</label>
@@ -71,6 +71,12 @@
           <input type="text" id="objetivo" placeholder="DD/MM" readonly>
           <!-- data completa (com ano) enviada ao banco -->
           <input type="hidden" id="data-consulta" name="data_consulta">
+        </div>
+
+        <div class="dados">
+          <label for="atestado">Atestado médico <span>(opcional)</span></label>
+          <input type="file" id="atestado" name="atestado" accept="application/pdf,image/jpeg,image/png,image/webp">
+          <small class="field-help">PDF ou imagem, até 10 MB.</small>
         </div>
 
         <div id="mini-calendar-popover" class="mini-calendar">
@@ -312,11 +318,10 @@ document.addEventListener('DOMContentLoaded', () => {
     status.textContent = 'Enviando...';
 
     try {
-      const resp = await fetch(`${API_BASE}/api/agendamentos`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      });
+      const formData = new FormData(form);
+      formData.set('nascimento', dados.nascimento);
+      formData.set('telefone', dados.telefone);
+      const resp = await fetch(`${API_BASE}/api/agendamentos`, { method: 'POST', body: formData });
       const json = await resp.json().catch(() => ({}));
       if (!resp.ok) throw new Error(json.erro || 'Não foi possível agendar. Tente novamente.');
 

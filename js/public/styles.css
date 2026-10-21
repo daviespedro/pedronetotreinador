@@ -382,6 +382,9 @@ body.cliente {
   cursor: pointer;
   background-color: #ffffff;
 }
+.dados input[type="file"]{padding:10px 12px;color:#334155;background:#fff;}
+.dados label span,.field-help{color:#9ebeea;font-size:12px;font-weight:400;}
+.field-help{margin-top:6px;}
 
 
 .mini-calendar {
@@ -1224,6 +1227,7 @@ body.adm .btn-del{
   box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 6px 14px -6px rgba(185,28,28,.6);
   transition:all .3s ease-in-out;
 }
+.document-link{color:#1b3e6f;font-weight:700;text-decoration:underline;text-underline-offset:3px;}
 body.adm .btn-del:hover{transform:translateY(-1px) scale(1.05);filter:brightness(1.08);}
 body.adm .btn-del:active{transform:scale(.98);}
 
