@@ -213,12 +213,19 @@
       ultimoEl.textContent = ultimo ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' }).format(ultimo) : '—';
     }
 
+    // Mensagem automática enviada ao abrir a conversa (edite o texto aqui)
+    function mensagemWhatsApp(nome) {
+      const primeiroNome = String(nome || '').trim().split(/\s+/)[0];
+      return `Olá, ${primeiroNome}! Aqui é o Pedro Neto. Vi que você agendou uma consulta pelo site e queria combinar o melhor dia e horário para a sua avaliação. Qual período fica melhor para você?`;
+    }
+
     // Link do WhatsApp para o número que o cliente informou (DDD + número, com 55 na frente)
-    function linkWhatsApp(numero) {
-      let n = String(numero || '').replace(/\D/g, '');
-      if ((n.length === 12 || n.length === 13) && n.startsWith('55')) return `https://wa.me/${n}`;
-      if (n.length === 10 || n.length === 11) return `https://wa.me/55${n}`;
-      return null;
+    function linkWhatsApp(numero, nome) {
+      const n = String(numero || '').replace(/\D/g, '');
+      let base = null;
+      if ((n.length === 12 || n.length === 13) && n.startsWith('55')) base = `https://wa.me/${n}`;
+      else if (n.length === 10 || n.length === 11) base = `https://wa.me/55${n}`;
+      return base && `${base}?text=${encodeURIComponent(mensagemWhatsApp(nome))}`;
     }
 
     function criarCelula(texto) {
@@ -252,7 +259,7 @@
 
         const whats = document.createElement('td');
         whats.className = 'col-wa';
-        const urlWhats = linkWhatsApp(item.telefone);
+        const urlWhats = linkWhatsApp(item.telefone, item.nome);
         if (urlWhats) {
           const botaoWhats = document.createElement('a');
           botaoWhats.href = urlWhats;
