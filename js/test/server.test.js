@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const { once } = require('node:events');
 const http = require('node:http');
 const test = require('node:test');
 
@@ -10,9 +11,8 @@ const loadApp = (environment) => {
 };
 
 const withServer = async (app, run) => {
-  const server = await new Promise((resolve) => {
-    const instance = app.listen(0, '127.0.0.1', () => resolve(instance));
-  });
+  const server = app.listen(0, '127.0.0.1');
+  await once(server, 'listening');
   try {
     await run(`http://127.0.0.1:${server.address().port}`);
   } finally {

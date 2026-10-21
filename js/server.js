@@ -11,7 +11,10 @@ const documentsBucket = process.env.SUPABASE_DOCUMENTS_BUCKET || 'atestados-medi
 const supabase = SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
   : null;
-const publicDir = path.join(__dirname, fs.existsSync(path.join(__dirname, 'dist')) ? 'dist' : 'public');
+const publicDir = path.join(
+  __dirname,
+  process.env.VERCEL || !fs.existsSync(path.join(__dirname, 'dist')) ? 'public' : 'dist'
+);
 const allowedDocuments = new Map([
   ['application/pdf', 'pdf'],
   ['image/jpeg', 'jpg'],
