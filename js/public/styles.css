@@ -275,7 +275,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 
-body.cliente {
+body.cliente,
+body.adm {
   background-color: #ffffff00;
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 23, 77, 0.8)), 
@@ -559,7 +560,6 @@ body.cliente {
 
 body.adm{
   background-color: #04152e;
-;
 }
 
 .container {
@@ -1167,9 +1167,6 @@ body.cliente #status.erro{color:#f87171;}
 .cal-day.disabled{background:transparent;}
 
 /* ---------- Admin ---------- */
-body.adm{
-  background:radial-gradient(70% 50% at 50% 0%,rgba(35,77,132,.35),transparent 70%),#04152e;
-}
 .container{background:transparent;}
 .card{
   background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(246,248,251,.96));
@@ -1410,7 +1407,7 @@ body.adm .btn-del:active{transform:scale(.98);}
   .footer-links{gap:24px;}
   .footer-col a{min-height:44px;display:flex;align-items:center;margin:0;}
 
-  body.cliente{background-attachment:scroll;}
+  body.cliente,body.adm{background-attachment:scroll;}
   body.cliente main{min-height:0;padding:24px 16px;align-items:flex-start;}
   .form-container{height:auto;min-height:0;margin-top:0;padding:32px 20px;}
   .cadastro-title{margin-bottom:24px;}
