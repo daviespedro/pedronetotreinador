@@ -1168,10 +1168,7 @@ body.cliente #status.erro{color:#f87171;}
 
 /* ---------- Admin ---------- */
 body.adm{
-  background:
-    linear-gradient(rgba(4,21,46,.55),rgba(4,21,46,.75)),
-    url("image/WhatsApp Image 2026-09-20 at 17.00.25 (2).jpeg") center / cover fixed no-repeat,
-    #04152e;
+  background:radial-gradient(70% 50% at 50% 0%,rgba(35,77,132,.35),transparent 70%),#04152e;
 }
 .container{background:transparent;}
 .card{
