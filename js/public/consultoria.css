@@ -1482,3 +1482,58 @@
 .landing .comparison-art-compact [data-after] {
   left: -125.559701%;
 }
+
+/* A trajetória do próprio treinador abre a galeria. */
+.landing .result-owner {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+  padding: clamp(16px, 3vw, 36px);
+  border: 1px solid #759bce66;
+  border-radius: var(--r-lg);
+  background: radial-gradient(ellipse at 100% 0, #2b63ad40, transparent 75%), var(--navy);
+  box-shadow: var(--shadow-lg);
+  color: var(--white);
+}
+.landing .result-owner .result-slot {
+  border-color: #ffffff30;
+  background: #ffffff0a;
+}
+.landing .result-owner .result-expand {
+  color: #d2e0f3;
+}
+.landing .result-owner .result-expand:hover {
+  background: #ffffff0a;
+}
+.landing .result-owner .comparison span {
+  background: #0d1b2acc;
+}
+.landing .result-owner-copy {
+  padding: clamp(8px, 2vw, 24px);
+}
+.landing .result-owner-copy h3 {
+  font-size: clamp(30px, 3.7vw, 48px);
+  line-height: 1.12;
+}
+.landing .result-owner-copy p {
+  margin-block: 24px;
+  color: #c9d7e9;
+  font-size: 16px;
+}
+.landing .result-owner-copy a {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 48px;
+}
+@media (max-width: 760px) {
+  .landing .result-owner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .landing .result-owner-copy {
+    padding: 12px 8px 16px;
+  }
+}

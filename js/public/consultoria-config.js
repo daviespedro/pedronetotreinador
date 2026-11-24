@@ -11,10 +11,10 @@ window.consultoriaConfig = {
   // Adicione apenas material autorizado. Cada entrada pode ter fotos, relato ou ambos.
   // { nome: '', antes: '', depois: '', relato: '', avatar: '' }
   resultados: [
+    { nome: 'Pedro Neto', montagem: 'image/evolucao-04.jpg', compacta: true, destaque: true },
     { montagem: 'image/evolucao-01.jpg' },
     { montagem: 'image/evolucao-02.jpg' },
     { montagem: 'image/evolucao-03.jpg' },
-    { montagem: 'image/evolucao-04.jpg', compacta: true },
   ],
   planos: {
     trimestral: { valor: 'R$ 499,90' },

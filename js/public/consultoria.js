@@ -114,7 +114,7 @@ for (const [selector, value] of [
 
 const results = document.querySelector('[data-results]');
 const resultTemplate = document.getElementById('result-template');
-const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, montagem, compacta }) => {
+const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, montagem, compacta, destaque }) => {
   const hasPhotos = Boolean(montagem || (antes && depois));
   if (!hasPhotos && !relato) return [];
 
@@ -149,6 +149,12 @@ const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, 
     }
   } else {
     testimonial.remove();
+  }
+  if (destaque && hasPhotos) {
+    card.classList.add('result-owner');
+    card.append(document.getElementById('owner-result-template').content.cloneNode(true));
+    comparison.querySelector('[data-before]').alt = 'Pedro Neto antes, em registro da própria evolução';
+    comparison.querySelector('[data-after]').alt = 'Pedro Neto depois, em registro da própria evolução';
   }
   return [card];
 });
