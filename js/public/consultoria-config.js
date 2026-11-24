@@ -14,6 +14,7 @@ window.consultoriaConfig = {
     { montagem: 'image/evolucao-01.jpg' },
     { montagem: 'image/evolucao-02.jpg' },
     { montagem: 'image/evolucao-03.jpg' },
+    { montagem: 'image/evolucao-04.jpg', compacta: true },
   ],
   planos: {
     trimestral: { valor: 'R$ 499,90' },

@@ -1466,3 +1466,19 @@
 .landing.motion-paused .whatsapp-float::before {
   animation-play-state: paused;
 }
+
+/* Enquadramento da arte de 1281 × 1600, acima das etiquetas originais. */
+.landing .comparison-art-compact > div {
+  aspect-ratio: 536 / 638;
+}
+.landing .comparison-art-compact img {
+  top: -55.799373%;
+  width: 238.992537%;
+  height: 250.783699%;
+}
+.landing .comparison-art-compact [data-before] {
+  left: -13.246269%;
+}
+.landing .comparison-art-compact [data-after] {
+  left: -125.559701%;
+}

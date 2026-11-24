@@ -114,7 +114,7 @@ for (const [selector, value] of [
 
 const results = document.querySelector('[data-results]');
 const resultTemplate = document.getElementById('result-template');
-const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, montagem }) => {
+const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, montagem, compacta }) => {
   const hasPhotos = Boolean(montagem || (antes && depois));
   if (!hasPhotos && !relato) return [];
 
@@ -125,6 +125,7 @@ const cards = config.resultados.flatMap(({ nome, antes, depois, relato, avatar, 
   if (hasPhotos) {
     if (montagem) {
       comparison.querySelector('.comparison').classList.add('comparison-art');
+      comparison.querySelector('.comparison').classList.toggle('comparison-art-compact', Boolean(compacta));
       card.classList.add('photo-result');
     }
     comparison.querySelector('[data-result-name]').textContent = nome || '';
