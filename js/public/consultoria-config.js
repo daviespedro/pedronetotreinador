@@ -4,7 +4,7 @@ window.consultoriaConfig = {
   whatsapp: '5543988625828',
   mensagem: 'Olá, Pedro! Quero começar minha consultoria online.',
   formacao: 'Profissional de Educação Física',
-  cref: '',
+  cref: '049370-G/PR',
   // Campos opcionais. Em branco, a apresentação padrão da página é usada.
   biografia: '',
   metodologia: '',
