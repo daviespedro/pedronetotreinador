@@ -26,9 +26,11 @@ async function build() {
   await mkdir(distDir, { recursive: true });
   await cp(publicDir, distDir, { recursive: true });
 
-  const styles = await readFile(path.join(publicDir, 'styles.css'), 'utf8');
-  const minifiedStyles = await esbuild.transform(styles, { loader: 'css', minify: true });
-  await writeFile(path.join(distDir, 'styles.css'), minifiedStyles.code);
+  await Promise.all(['styles.css', 'consultoria.css'].map(async (file) => {
+    const styles = await readFile(path.join(publicDir, file), 'utf8');
+    const minifiedStyles = await esbuild.transform(styles, { loader: 'css', minify: true });
+    await writeFile(path.join(distDir, file), minifiedStyles.code);
+  }));
 
   await Promise.all(['index.html', 'cliente.html'].map((file) => minifyInlineScripts(path.join(distDir, file))));
   console.log('Build concluído em dist/.');

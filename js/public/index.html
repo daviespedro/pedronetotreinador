@@ -1,254 +1,388 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pedro Neto — Personal Trainer | Consultoria</title>
-<link rel="icon" type="image/png" href="/image/logo-branca.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0D1B2A">
+  <meta name="description" content="Consultoria online com Pedro Neto. Treino individualizado, planejamento e acompanhamento profissional para evoluir com um plano que cabe na sua rotina.">
+  <title>Consultoria Online | Pedro Neto Personal Trainer</title>
+  <link rel="icon" type="image/png" href="/image/logo-branca.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="consultoria.css">
+  <script src="consultoria-config.js" defer></script>
+  <script src="consultoria.js" defer></script>
 </head>
-<body>
-
-<header>
-  <nav>
-    <div class="logo">
-      <a href="index.html" class="logo-link">
-      <img src="image/logobranca1.png" alt="logo PN" class="logo-img">
-       </a>
-      <div>
-        <span class="logo-word">PEDRO NETO</span>
-        <span class="logo-sub">TREINO · CONSULTORIA</span>
+<body class="landing">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header">
+    <nav class="wrap navigation" aria-label="Navegação principal">
+      <a class="logo" href="#inicio" aria-label="Pedro Neto, início">
+        <img class="logo-img" src="image/logobranca1.png" width="126" height="95" alt="">
+        <span><strong class="logo-word">PEDRO NETO</strong><small class="logo-sub">TREINO · CONSULTORIA</small></span>
+      </a>
+      <button class="nav-toggle" aria-controls="menu" aria-expanded="false" type="button">Menu <span aria-hidden="true">☰</span></button>
+      <div class="nav-links" id="menu">
+        <a href="#consultoria">A consultoria</a><a href="#processo">Como funciona</a><a href="#planos">Planos</a><a href="#resultados">Resultados</a>
+        <a href="#sobre">O profissional</a>
+        <a class="nav-cta1" href="#contato" data-whatsapp>Falar pelo WhatsApp</a>
       </div>
-    </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
-    <div class="nav-links" id="navLinks">
-      <a href="#pilares">O método</a>
-      <a href="#sobre">O profissional</a>
-      <a href="#filosofia">Filosofia</a>
-      <a href="#nutricao">Nutrição</a>
-      <a href="#processo">Como funciona</a>
-      <a href="cliente.html" class="nav-cta1">Agendar avaliação</a>
-      <a href="adm.html" class="nav-cta">Administrador</a>
-    </div>
-  </nav>
-</header>
-
-<section class="hero">
-  <div class="hero-bg-letters" aria-hidden="true">PN</div>
-  <div class="wrap hero-inner">
-    <div>
-      <p class="eyebrow">SAÚDE, NÃO SÓ ESTÉTICA</p>
-      <h1 class="headline">Sua saúde é o nosso plano.</h1>
-      <p class="hero-sub">Treino, alimentação, sono e recuperação tratados como um sistema só. O foco não é só levantar mais peso — é você ter mais energia, mais anos de vida ativa e exames que confirmam isso.</p>
-      <div class="hero-actions">
-        <a href="#contato" class="btn-primary">Agendar avaliação</a>
-        <a href="#processo" class="btn-ghost">Ver como funciona →</a>
-      </div>
-    </div>
-    <div class="hero-panel">
-      <img src="image/photo.expe.jpeg" alt="experiencia1">
-      <div class="stat-row">
-        <div class="stat2"><b>24/7</b><span>FOCO NO SEU PROGRESSO</span></div>
-        <div class="stat2"><b>100%</b><span>PERSONALIZADO</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pillars" id="pilares">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">O MÉTODO</p>
-      <h2>Saúde de verdade tem três frentes que conversam entre si.</h2>
-    </div>
-    <div class="pillar-grid">
-      <div class="pillar">
-        <p class="pillar-index">01 — TREINO</p>
-        <h3>Movimento como remédio</h3>
-        <p>Força, mobilidade e condicionamento na dose certa para o seu corpo hoje — pensados para sustentar disposição e prevenir lesões, não só estética.</p>
-      </div>
-      <div class="pillar">
-        <p class="pillar-index">02 — NUTRIÇÃO</p>
-        <h3>Alimentação para o corpo todo</h3>
-        <p>Orientação nutricional voltada a energia, imunidade e marcadores de saúde — não uma dieta restritiva de curto prazo.</p>
-      </div>
-      <div class="pillar">
-        <p class="pillar-index">03 — CONSULTORIA</p>
-        <h3>Acompanhamento contínuo</h3>
-        <p>Sono, estresse, carga de treino e evolução acompanhados de perto — ajustes constantes em vez de uma reavaliação genérica por mês.</p>
-      </div>
-    </div>
-    <div class="method-results" aria-label="Resultados do acompanhamento">
-      <p class="results-label">O que o plano trabalha no dia a dia</p>
-      <div class="marker-grid">
-        <div class="marker">
-          <span class="mono-label">ENERGIA</span>
-          <h4>Disposição no dia a dia</h4>
-          <p>Menos cansaço nas tarefas comuns, não só desempenho na academia.</p>
-        </div>
-        <div class="marker">
-          <span class="mono-label">SONO</span>
-          <h4>Recuperação de verdade</h4>
-          <p>Rotina ajustada para dormir melhor, base de qualquer resultado.</p>
-        </div>
-        <div class="marker">
-          <span class="mono-label">PREVENÇÃO</span>
-          <h4>Menos dor, menos lesão</h4>
-          <p>Mobilidade e força trabalhadas para proteger articulações e coluna.</p>
-        </div>
-        <div class="marker">
-          <span class="mono-label">LONGEVIDADE</span>
-          <h4>Anos ativos, não só magros</h4>
-          <p>Foco em manter autonomia e qualidade de vida ao longo do tempo.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="about wrap" id="sobre">
-  <div class="section-head">
-    <p class="eyebrow">QUEM CUIDA DO SEU PLANO</p>
-    <h2>Pedro Neto</h2>
-  </div>
-  <div class="about-grid">
-    <div class="about-photo">
-      <img src="image/pn.pic.jpeg" alt="Foto de Pedro Neto, personal trainer">
-      <div class="photo-tag">PEDRO NETO — PERSONAL TRAINER</div>
-    </div>
-    <div class="about-text">
-      <p>Formado em Educação Física, apaixonado por academia, atuo há anos como treinador voltado à, não só estética, mas também priorizar sua saúde e autoestima. Seja o seu melhor.  Meu trabalho parte de uma avaliação completa: histórico de treino, rotina de sono, alimentação e objetivos, antes de qualquer plano ser montado.</p>
-      <p>Acompanho cada aluno de perto, com ajustes constantes com base em dados reais e não em fórmulas prontas. O objetivo nunca é só levantar mais peso, é você enxergar um pouco mais da sua melhor versão todos os dias no espelho. .</p>
-      <div class="about-credentials">
-        <div><b>+5</b><span>ANOS DE EXPERIÊNCIA</span></div>
-        <div><b>CREF</b><span>PROFISSIONAL REGISTRADO</span></div>
-        <div><b>1:1</b><span>ACOMPANHAMENTO INDIVIDUAL</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="philosophy" id="filosofia">
-  <div class="wrap philosophy-inner">
-    <blockquote>“O treino é 1 hora. A recuperação são as outras 23. Priorize o sono.”</blockquote>
-    <cite>PEDRO NETO — SAÚDE E RECUPERAÇÃO</cite>
-  </div>
-</section>
-
-<section class="nutrition" id="nutricao">
-  <div class="wrap nutrition-grid">
-    <div class="bowl-wrap">
-      <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&q=80" alt="Tigela com aveia, banana, morango e ovos — refeição equilibrada">
-    </div>
-    <div>
-      <div class="section-head" style="margin-bottom:36px;">
-        <p class="eyebrow">NUTRIÇÃO PARA A SAÚDE</p>
-        <h2>Comer bem para o corpo inteiro, não só para o treino.</h2>
-      </div>
-      <div class="nutri-points">
-        <div class="nutri-point">
-          <span class="num">01</span>
-          <div><h4>Energia estável</h4><p>Carboidratos de qualidade, como aveia e banana, para sustentar o dia — não só a sessão de treino.</p></div>
-        </div>
-        <div class="nutri-point">
-          <span class="num">02</span>
-          <div><h4>Reparo e imunidade</h4><p>Proteína suficiente para músculos, cicatrização e defesas do corpo em dia.</p></div>
-        </div>
-        <div class="nutri-point">
-          <span class="num">03</span>
-          <div><h4>Rotina sustentável</h4><p>Planejamento de refeições que cabe na sua vida real, sem restrição extrema.</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="method" id="processo">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">COMO FUNCIONA</p>
-      <h2>Do diagnóstico ao plano em três etapas.</h2>
-    </div>
-    <div class="method-steps">
-      <div class="method-step">
-        <p class="num">01</p>
-        <h4>Avaliação inicial</h4>
-        <p>Histórico de treino, rotina, restrições e objetivo — para montar um ponto de partida real.</p>
-      </div>
-      <div class="method-step">
-        <p class="num">02</p>
-        <h4>Plano sob medida</h4>
-        <p>Treino e orientação nutricional desenhados para as próximas semanas, não um template genérico.</p>
-      </div>
-      <div class="method-step">
-        <p class="num">03</p>
-        <h4>Ajuste contínuo</h4>
-        <p>Revisão periódica com base na sua evolução — o plano muda junto com você.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-final" id="contato">
-  <div class="cta-pattern" aria-hidden="true"></div>
-  <div class="wrap cta-inner">
-    <h2>Pronto para cuidar da sua saúde de verdade?</h2>
-    <p>Agende sua avaliação e comece com um diagnóstico real — não uma planilha pronta.</p>
-    <a href="cliente.html" class="btn-primary">Agendar consultoria</a>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="logo">
-        <a href="index.html" class="logo-link">
-      <img src="image/logobranca1.png" alt="logo PN" class="logo-img">
-       </a>
+    </nav>
+  </header>
+  <main id="conteudo">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-bg-letters" aria-hidden="true">PN</div>
+      <div class="wrap hero-inner">
         <div>
-          <span class="logo-word">PEDRO NETO</span>
-          <span class="logo-sub">SUA SAÚDE É O NOSSO PLANO</span>
+          <h1 class="headline" id="hero-title"><span class="hero-title-main">Consultoria <br>Online.</span><em>Seu objetivo.<br>Um plano feito para você.</em></h1>
+          <p class="hero-sub">Pedro Neto monta seu treino de acordo com sua rotina, acompanha sua evolução e ajusta o plano conforme você progride.</p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="#contato" data-whatsapp>Quero começar minha consultoria</a>
+            <a class="btn-ghost" href="#planos">Conhecer os planos <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
+        <figure class="hero-panel">
+          <img src="image/photo.expe.jpeg" width="1200" height="1600" fetchpriority="high" alt="Pedro Neto orientando um aluno durante o acompanhamento">
+          <figcaption class="stat-row">
+            <div class="stat2"><b>Seu plano</b><span>INDIVIDUALIZADO</span></div>
+            <div class="stat2"><b>Sua evolução</b><span>ACOMPANHADA</span></div>
+          </figcaption>
+        </figure>
       </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h5>MÉTODO</h5>
-          <a href="#pilares">Treino</a>
-          <a href="#nutricao">Nutrição</a>
-          <a href="#processo">Consultoria</a>
-        </div>
-        <div class="footer-col">
-          <h5>CONTATO</h5>
-          <span>contato@pedroneto.com.br</span>
-          <span>@pedroneto_treinador</span>
-        </div>
+    </section>
+
+    <div class="consultation-marquee" aria-label="Diferenciais da consultoria">
+      <div class="marquee-track">
+        <div class="marquee-group"><span>Treino individualizado</span><span>Acompanhamento profissional</span><span>Ajustes dos treinos</span><span>Avaliação da evolução</span></div>
+        <div class="marquee-group" aria-hidden="true"><span>Treino individualizado</span><span>Acompanhamento profissional</span><span>Ajustes dos treinos</span><span>Avaliação da evolução</span></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Pedro Neto — Personal Trainer e Consultoria.</span>
-      <span>Progresso exige precisão.</span>
+
+    <section class="section wrap service-section" id="consultoria">
+      <div class="section-head">
+        <h2>Um acompanhamento completo.<br>Em cada etapa do seu treino.</h2>
+        <p>Seu corpo, sua rotina e seus objetivos são o ponto de partida. A consultoria conecta planejamento e acompanhamento para dar sentido ao que você faz na academia.</p>
+        <a class="text-link" href="#contato" data-whatsapp>Quero um plano para mim <span aria-hidden="true">↗</span></a>
+      </div>
+      <ul class="included-grid" role="list">
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1m5.5 12.5-1 1a2.1 2.1 0 0 1-3-3l1-1m7-7 1-1a2.1 2.1 0 0 1 3 3l-1 1"/><path d="m14.5 17.5 3-3a2.1 2.1 0 0 1 3 3l-3 3a2.1 2.1 0 0 1-3-3ZM3.5 6.5l3-3a2.1 2.1 0 0 1 3 3l-3 3a2.1 2.1 0 0 1-3-3Z"/></svg>
+          <h3>Treino individualizado e personalizado.</h3>
+          <p>Exercícios e organização pensados para seu objetivo e nível atual.</p>
+        </li>
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="14" r="8"/><path d="M10 2h4m-2 12 3-3m3-3 2-2"/></svg>
+          <h3>Planejamento de aeróbicos.</h3>
+          <p>Condicionamento integrado ao seu programa de treino.</p>
+        </li>
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4" r="2"/><path d="m6 8 5 2 3 4 4 1m-7-5-2 5-5 4m5-4 4 3v4m1-8 4-4 3-1"/></svg>
+          <h3>Alongamentos e mobilidade.</h3>
+          <p>Movimento e preparação como parte do processo.</p>
+        </li>
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-12 5 2 2 4-4"/></svg>
+          <h3>Periodização e ajustes dos treinos.</h3>
+          <p>Um planejamento que evolui com a sua resposta ao treino.</p>
+        </li>
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14v-3a9 9 0 0 1 18 0v3m0 3v1a3 3 0 0 1-3 3h-4"/><rect x="3" y="11" width="4" height="7" rx="2"/><rect x="17" y="11" width="4" height="7" rx="2"/></svg>
+          <h3>Acompanhamento profissional.</h3>
+          <p>Orientação para entender o plano e seguir com mais confiança.</p>
+        </li>
+        <li class="included-card">
+          <svg class="included-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18M7 15l4-4 4 2 5-6m-4 0h4v4"/></svg>
+          <h3>Avaliação e monitoramento da evolução.</h3>
+          <p>Seu progresso como referência para os próximos passos.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="method process-section" id="processo">
+      <div class="wrap section">
+        <div class="section-top"><div class="section-head"><h2>Seu plano começa<br>com você.</h2></div><p>Da primeira conversa aos ajustes ao longo do acompanhamento.</p></div>
+        <ol class="method-steps steps">
+          <li class="method-step"><span class="step-number" aria-hidden="true">01</span><h3>Avaliação inicial</h3><p>Na primeira conversa, Pedro conhece seu histórico de treino, rotina, restrições e objetivos.</p></li>
+          <li class="method-step"><span class="step-number" aria-hidden="true">02</span><h3>Plano sob medida</h3><p>Pedro prepara o treino para as próximas semanas e considera seus hábitos de alimentação e recuperação no planejamento.</p></li>
+          <li class="method-step"><span class="step-number" aria-hidden="true">03</span><h3>Ajuste contínuo</h3><p>Coloque o plano em prática e compartilhe sua evolução para orientar as revisões periódicas.</p></li>
+        </ol>
+        <div class="process-actions">
+          <a class="btn-primary" href="#planos">Ver planos <span aria-hidden="true">↓</span></a>
+          <a class="btn-ghost" href="#contato" data-whatsapp>Tirar dúvidas pelo WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="resultados">
+      <div class="section-top"><div class="section-head"><h2>Evolução que<br>você pode ver.</h2></div><p>Antes e depois de alunos acompanhados por Pedro Neto.</p></div>
+      <div class="results-grid" data-results>
+        <article class="result-card">
+          <figure class="result-slot">
+            <div class="comparison">
+              <div><span>Antes</span></div>
+              <div><span>Depois</span></div>
+            </div>
+            <figcaption><strong>Fotos de evolução</strong><span>Registros em breve</span></figcaption>
+          </figure>
+          <div class="testimonial-slot">
+            <svg class="testimonial-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20c5 0 8-3 8-8V5H3v8h4c0 2-1 3-4 3Zm10 0c5 0 8-3 8-8V5h-8v8h4c0 2-1 3-4 3Z"/></svg>
+            <div>
+              <h3>Relatos de alunos</h3>
+              <p>Os depoimentos serão publicados em breve.</p>
+            </div>
+            <span class="testimonial-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg></span>
+          </div>
+        </article>
+      </div>
+      <template id="result-template">
+        <article class="result-card">
+          <figure class="result-slot">
+            <div class="comparison">
+              <div><span>Antes</span><img data-before loading="lazy" decoding="async" alt=""></div>
+              <div><span>Depois</span><img data-after loading="lazy" decoding="async" alt=""></div>
+            </div>
+            <figcaption><strong>Fotos de evolução</strong><span data-result-name></span></figcaption>
+          </figure>
+          <figure class="testimonial-slot" data-testimonial>
+            <svg class="testimonial-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20c5 0 8-3 8-8V5H3v8h4c0 2-1 3-4 3Zm10 0c5 0 8-3 8-8V5h-8v8h4c0 2-1 3-4 3Z"/></svg>
+            <blockquote><p></p></blockquote>
+            <figcaption class="testimonial-author">
+              <span class="testimonial-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg><img data-avatar alt="" loading="lazy" decoding="async" hidden></span>
+              <strong data-author></strong>
+            </figcaption>
+          </figure>
+        </article>
+      </template>
+      <a class="text-link" href="#contato" data-whatsapp>Converse sobre o seu objetivo <span aria-hidden="true">↗</span></a>
+      <p class="fine-print">A evolução é individual e depende de fatores como frequência, rotina e adesão ao planejamento.</p>
+    </section>
+
+    <section class="plans-section section" id="planos">
+      <div class="wrap">
+        <div class="section-top"><div class="section-head"><h2>Escolha seu plano.<br>Comece sua evolução.</h2></div><p>Escolha entre 3, 6 ou 12 meses de acompanhamento.</p></div>
+        <div class="plans-grid">
+          <article class="plan plan-featured">
+            <span class="plan-beam" aria-hidden="true"></span>
+            <span class="plan-badge">ESCOLHA RECOMENDADA</span>
+            <p class="plan-duration">3 MESES DE ACOMPANHAMENTO</p><h3>Trimestral</h3>
+            <p>Três meses para estabelecer uma rotina de treino com orientação.</p>
+            <p class="price" data-price="trimestral">R$ 499,90</p><span class="price-caption">Valor total · 3 meses de acompanhamento</span>
+            <ul data-benefits="trimestral"><li>Treino individualizado</li><li>Planejamento de aeróbicos e mobilidade</li><li>Avaliação e acompanhamento da evolução</li><li>Ajustes durante o acompanhamento</li></ul>
+            <a class="btn-primary" href="#contato" data-whatsapp data-plan="Trimestral">Quero o plano Trimestral <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="plan">
+            <p class="plan-duration">6 MESES DE ACOMPANHAMENTO</p><h3>Semestral</h3>
+            <p>Seis meses para consolidar a rotina e ajustar o treino conforme a evolução.</p>
+            <p class="price" data-price="semestral">R$ 899,90</p><span class="price-caption">Valor total · 6 meses de acompanhamento</span>
+            <ul data-benefits="semestral"><li>Treino individualizado</li><li>Planejamento de aeróbicos e mobilidade</li><li>Avaliação e acompanhamento da evolução</li><li>Ajustes durante o acompanhamento</li></ul>
+            <a class="btn-secondary" href="#contato" data-whatsapp data-plan="Semestral">Quero o plano Semestral <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="plan">
+            <p class="plan-duration">12 MESES DE ACOMPANHAMENTO</p><h3>Anual</h3>
+            <p>Doze meses para planejar o treino e acompanhar sua evolução ao longo do ano.</p>
+            <p class="price" data-price="anual">R$ 1.699,00</p><span class="price-caption">Valor total · 12 meses de acompanhamento</span>
+            <ul data-benefits="anual"><li>Treino individualizado</li><li>Planejamento de aeróbicos e mobilidade</li><li>Avaliação e acompanhamento da evolução</li><li>Ajustes durante o acompanhamento</li></ul>
+            <a class="btn-secondary" href="#contato" data-whatsapp data-plan="Anual">Quero o plano Anual <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <p class="plan-note">Converse com Pedro para confirmar condições e detalhes do acompanhamento.</p>
+      </div>
+    </section>
+
+    <section class="trainer-section" id="sobre">
+      <div class="wrap about-grid trainer-grid">
+        <div class="about-photo trainer-photo"><img src="image/pn.pic.jpeg" width="960" height="1280" loading="lazy" alt="Pedro Neto, personal trainer, em uma academia"><span class="photo-tag">PEDRO NETO / PERSONAL TRAINER</span></div>
+        <div class="trainer-copy">
+          <h2>Pedro Neto</h2>
+          <p class="qualification" data-formation>Profissional de Educação Física</p>
+          <p data-bio>Formado em Educação Física, Pedro Neto atua como treinador há mais de cinco anos, com foco em saúde, autoestima e evolução individual.</p>
+          <p data-method>O acompanhamento começa com uma avaliação do histórico de treino, da rotina de sono, da alimentação e dos objetivos. Pedro acompanha cada aluno de perto e ajusta o plano com base na evolução observada.</p>
+          <div class="about-credentials">
+            <div><b aria-label="Mais de 5"><span data-counter="5" data-prefix="+" aria-hidden="true">+5</span></b><span>ANOS DE EXPERIÊNCIA</span></div>
+            <div><b>CREF</b><span>PROFISSIONAL REGISTRADO</span><p class="cref" data-cref hidden></p></div>
+            <div><b>1:1</b><span>ACOMPANHAMENTO INDIVIDUAL</span></div>
+          </div>
+          <a class="btn-primary" href="#contato" data-whatsapp>Quero treinar com Pedro <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pillars" id="pilares">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">O MÉTODO</p>
+          <h2>Saúde de verdade tem três frentes que conversam entre si.</h2>
+        </div>
+        <div class="pillar-grid">
+          <div class="pillar">
+            <p class="pillar-index">01 — TREINO</p>
+            <h3>Movimento como remédio</h3>
+            <p>Força, mobilidade e condicionamento na dose certa para o seu corpo hoje — pensados para sustentar disposição e prevenir lesões, não só estética.</p>
+          </div>
+          <div class="pillar">
+            <p class="pillar-index">02 — NUTRIÇÃO</p>
+            <h3>Alimentação para o corpo todo</h3>
+            <p>Orientação nutricional voltada a energia, imunidade e marcadores de saúde — não uma dieta restritiva de curto prazo.</p>
+          </div>
+          <div class="pillar">
+            <p class="pillar-index">03 — CONSULTORIA</p>
+            <h3>Acompanhamento contínuo</h3>
+            <p>Sono, estresse, carga de treino e evolução acompanhados de perto — ajustes constantes em vez de uma reavaliação genérica por mês.</p>
+          </div>
+        </div>
+        <div class="method-results" aria-label="Resultados do acompanhamento">
+          <p class="results-label">O que o plano trabalha no dia a dia</p>
+          <div class="marker-grid">
+            <div class="marker">
+              <span class="mono-label">ENERGIA</span>
+              <h4>Disposição no dia a dia</h4>
+              <p>Menos cansaço nas tarefas comuns, não só desempenho na academia.</p>
+            </div>
+            <div class="marker">
+              <span class="mono-label">SONO</span>
+              <h4>Recuperação de verdade</h4>
+              <p>Rotina ajustada para dormir melhor, base de qualquer resultado.</p>
+            </div>
+            <div class="marker">
+              <span class="mono-label">PREVENÇÃO</span>
+              <h4>Menos dor, menos lesão</h4>
+              <p>Mobilidade e força trabalhadas para proteger articulações e coluna.</p>
+            </div>
+            <div class="marker">
+              <span class="mono-label">LONGEVIDADE</span>
+              <h4>Anos ativos, não só magros</h4>
+              <p>Foco em manter autonomia e qualidade de vida ao longo do tempo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophy" id="filosofia">
+      <div class="wrap philosophy-inner">
+        <blockquote>“O treino é 1 hora. A recuperação são as outras 23. Priorize o sono.”</blockquote>
+        <cite>PEDRO NETO — SAÚDE E RECUPERAÇÃO</cite>
+      </div>
+    </section>
+
+    <section class="nutrition" id="nutricao">
+      <div class="wrap nutrition-grid">
+        <div class="bowl-wrap">
+          <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&q=80" alt="Tigela com aveia, banana, morango e ovos — refeição equilibrada">
+        </div>
+        <div>
+          <div class="section-head">
+            <p class="eyebrow">NUTRIÇÃO PARA A SAÚDE</p>
+            <h2>Comer bem para o corpo inteiro, não só para o treino.</h2>
+          </div>
+          <div class="nutri-points">
+            <div class="nutri-point">
+              <span class="num">01</span>
+              <div><h4>Energia estável</h4><p>Carboidratos de qualidade, como aveia e banana, para sustentar o dia — não só a sessão de treino.</p></div>
+            </div>
+            <div class="nutri-point">
+              <span class="num">02</span>
+              <div><h4>Reparo e imunidade</h4><p>Proteína suficiente para músculos, cicatrização e defesas do corpo em dia.</p></div>
+            </div>
+            <div class="nutri-point">
+              <span class="num">03</span>
+              <div><h4>Rotina sustentável</h4><p>Planejamento de refeições que cabe na sua vida real, sem restrição extrema.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap faq-section" aria-labelledby="faq-title">
+      <div><h2 id="faq-title">Vamos tirar<br>suas dúvidas?</h2></div>
+      <div class="questions">
+        <details><summary>A consultoria é totalmente online?</summary><p>Sim. O planejamento e o acompanhamento são realizados a distância. Na conversa inicial, Pedro explica como será a avaliação e a troca de informações durante o plano.</p></details>
+        <details><summary>Estou começando. Posso participar?</summary><p>O treino é individualizado conforme sua experiência e suas necessidades. Conte seu histórico e eventuais restrições na avaliação inicial.</p></details>
+        <details><summary>Como escolho meu plano?</summary><p>Os planos oferecem 3, 6 ou 12 meses de acompanhamento. Converse com Pedro para definir qual duração combina com seu objetivo.</p></details>
+        <details><summary>Como faço para contratar?</summary><p>Use um dos botões de contato, informe o plano de interesse e tire suas dúvidas sobre valores, condições e início do acompanhamento.</p></details>
+      </div>
+    </section>
+
+    <section class="cta-final final-section" id="contato">
+      <div class="cta-pattern" aria-hidden="true"></div>
+      <div class="wrap final-grid"><div><h2>Seu próximo passo<br><em>começa aqui.</em></h2></div>
+        <div><p>Conte onde você quer chegar. Vamos conversar sobre como a consultoria online pode fazer parte da sua rotina.</p>
+          <a class="btn-primary" href="#contato" data-whatsapp>Quero começar minha consultoria <span aria-hidden="true">↗</span></a>
+          <p class="contact-note" id="contact-status" hidden></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="logo" href="#inicio">
+          <img class="logo-img" src="image/logobranca1.png" width="126" height="95" alt="">
+          <span><strong class="logo-word">PEDRO NETO</strong><small class="logo-sub">TREINO · CONSULTORIA</small></span>
+        </a>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h5>CONSULTORIA ONLINE</h5>
+            <a href="#consultoria">O acompanhamento</a>
+            <a href="#planos">Planos e valores</a>
+          </div>
+          <div class="footer-col">
+            <h5>MÉTODO</h5>
+            <a href="#pilares">Treino e saúde</a>
+            <a href="#filosofia">Filosofia</a>
+            <a href="#nutricao">Nutrição</a>
+          </div>
+          <div class="footer-col">
+            <h5>CONTATO</h5>
+            <a href="#contato" data-whatsapp>Falar com Pedro pelo WhatsApp</a>
+            <span>contato@pedroneto.com.br</span>
+            <span>@pedroneto_treinador</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Pedro Neto — Personal Trainer e Consultoria.</span></div>
     </div>
-  </div>
-</footer>
-
-<script>
-  const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => {
-    const isOpen = links.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', isOpen);
-    toggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
-  });
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    links.classList.remove('open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Abrir menu');
-  }));
-</script>
-
+  </footer>
+  <a class="whatsapp-float" href="#contato" data-whatsapp aria-label="Falar com Pedro Neto pelo WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3Zm0 23.5a10.5 10.5 0 0 1-5.3-1.4l-.4-.2-3.9 1 1.1-3.8-.3-.4A10.5 10.5 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-4.3-3.8c-.3-.5.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4a3.6 3.6 0 0 0-1.1 2.6c0 1.5 1.1 3 1.3 3.2s2.2 3.5 5.4 4.9c2 .9 2.8 1 3.8.9.6-.1 1.9-.8 2.2-1.6s.3-1.4.2-1.6-.3-.3-.6-.4Z"/></svg><span>Vamos conversar</span></a>
+  <aside class="mobile-cta" aria-label="Escolher plano de consultoria" inert>
+    <a class="btn-primary" href="#planos">Escolher meu plano <span aria-hidden="true">↗</span></a>
+  </aside>
+  <dialog class="results-dialog consultation-dialog" id="results-dialog" aria-labelledby="results-dialog-title">
+    <button class="dialog-close" type="button" aria-label="Fechar comparação">×</button>
+    <h2 id="results-dialog-title">Antes e depois</h2>
+    <div data-expanded-result></div>
+  </dialog>
+  <dialog class="consultation-dialog" id="consultation-dialog" aria-labelledby="consultation-title" aria-describedby="consultation-description">
+    <button class="dialog-close" type="button" aria-label="Fechar formulário">×</button>
+    <h2 id="consultation-title">Comece sua consultoria</h2>
+    <p class="selected-plan" id="selected-plan"></p>
+    <p id="consultation-description">Preencha seus dados para conversar com Pedro pelo WhatsApp sobre o plano escolhido.</p>
+    <form id="consultation-form">
+      <label for="consultation-name">Nome</label>
+      <input id="consultation-name" name="nome" type="text" autocomplete="name" maxlength="100" required>
+      <div class="consultation-fields">
+        <div>
+          <label for="consultation-sex">Sexo</label>
+          <select id="consultation-sex" name="sexo" required>
+            <option value="">Selecione</option>
+            <option>Feminino</option>
+            <option>Masculino</option>
+            <option>Outro</option>
+            <option>Prefiro não informar</option>
+          </select>
+        </div>
+        <div>
+          <label for="consultation-age">Idade</label>
+          <input id="consultation-age" name="idade" type="number" inputmode="numeric" min="1" max="120" step="1" required>
+        </div>
+      </div>
+      <button class="btn-primary" type="submit">Continuar no WhatsApp</button>
+      <p class="consultation-note">A mensagem será preenchida para você revisar e enviar no WhatsApp.</p>
+    </form>
+  </dialog>
+  <noscript><p class="noscript">Para conversar sobre a consultoria, <a href="https://wa.me/5543988625828">fale com Pedro pelo WhatsApp</a>.</p></noscript>
 </body>
 </html>
